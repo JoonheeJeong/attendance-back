@@ -26,7 +26,7 @@ import lombok.Getter;
 			.email(employee.getEmail())
 			.phone(employee.getPhone())
 			.hireDate(employee.getHireDate())
-			.profilePath(employee.getProfilePath())
+			.profilePath(employee.getProfileImagePath())
 			.build();
 	}
 }

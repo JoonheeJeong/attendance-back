@@ -1,5 +1,46 @@
 package com.toy4.domain.employee.service.impl;
 
+import com.toy4.domain.RefreshToken.domain.RefreshToken;
+import com.toy4.domain.RefreshToken.repository.RefreshTokenRepository;
+import com.toy4.domain.dayOffByPosition.domain.DayOffByPosition;
+import com.toy4.domain.dayOffByPosition.exception.DayOffByPositionException;
+import com.toy4.domain.dayOffByPosition.repository.DayOffByPositionRepository;
+import com.toy4.domain.department.domain.Department;
+import com.toy4.domain.department.exception.DepartmentException;
+import com.toy4.domain.department.repository.DepartmentRepository;
+import com.toy4.domain.department.type.DepartmentType;
+import com.toy4.domain.employee.domain.Employee;
+import com.toy4.domain.employee.dto.EmployeeDto;
+import com.toy4.domain.employee.dto.MyPageResponse;
+import com.toy4.domain.employee.dto.PersonalInfoResponse;
+import com.toy4.domain.employee.exception.EmployeeException;
+import com.toy4.domain.employee.repository.EmployeeRepository;
+import com.toy4.domain.employee.service.EmployeeService;
+import com.toy4.domain.position.domain.Position;
+import com.toy4.domain.position.exception.PositionException;
+import com.toy4.domain.position.repository.PositionRepository;
+import com.toy4.domain.position.type.PositionType;
+import com.toy4.domain.status.domain.Status;
+import com.toy4.domain.status.exception.StatusException;
+import com.toy4.domain.status.repository.StatusRepository;
+import com.toy4.domain.status.type.StatusType;
+import com.toy4.global.file.component.EmployeeProfileImageService;
+import com.toy4.global.jwt.JwtProvider;
+import com.toy4.global.response.dto.CommonResponse;
+import com.toy4.global.response.service.ResponseService;
+import com.toy4.global.response.type.ErrorCode;
+import com.toy4.global.toekn.dto.TokenDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.HashMap;
+
+import static com.toy4.domain.employee.type.EmployeeRole.USER;
+import static com.toy4.domain.position.type.PositionType.STAFF;
+import static com.toy4.domain.status.type.StatusType.JOINED;
 import static com.toy4.global.response.type.ErrorCode.*;
 import static com.toy4.global.response.type.SuccessCode.*;
 
@@ -7,35 +48,35 @@ import static com.toy4.global.response.type.SuccessCode.*;
 @RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
-	private final EmployeeRepository employeeRepository;
-	private final ResponseService responseService;
-  private final RefreshTokenRepository refreshTokenRepository;
-  private final DayOffByPositionRepository dayOffByPositionRepository;
-  private final DepartmentRepository departmentRepository;
-  private final PositionRepository positionRepository;
-  private final StatusRepository statusRepository;
-  private final PasswordEncoder passwordEncoder;
-  private final JwtProvider jwtProvider;
-  private final EmployeeProfileImageService employeeProfileImageService;
+    private final EmployeeRepository employeeRepository;
+    private final ResponseService responseService;
+    private final RefreshTokenRepository refreshTokenRepository;
+    private final DayOffByPositionRepository dayOffByPositionRepository;
+    private final DepartmentRepository departmentRepository;
+    private final PositionRepository positionRepository;
+    private final StatusRepository statusRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtProvider jwtProvider;
+    private final EmployeeProfileImageService employeeProfileImageService;
 
-	@Override
-	@Transactional
-	public CommonResponse<?> updateEmployeeInfo(EmployeeDto employeeDto, MultipartFile profileImageFile) {
-		Employee employee = employeeRepository.findById(employeeDto.getId())
-			.orElseThrow(() -> new EmployeeException(ErrorCode.ENTITY_NOT_FOUND));
+    @Override
+    @Transactional
+    public CommonResponse<?> updateEmployeeInfo(EmployeeDto employeeDto, MultipartFile profileImageFile) {
+        Employee employee = employeeRepository.findById(employeeDto.getId())
+                .orElseThrow(() -> new EmployeeException(ErrorCode.ENTITY_NOT_FOUND));
 
-		String profileImagePath = employeeProfileImageService.getDefaultFile();
+        String profileImagePath = employeeProfileImageService.getDefaultFile();
 
-		if (!profileImageFile.isEmpty()) {
-			profileImagePath = employeeProfileImageService.saveFile(employeeDto.getId(), profileImageFile);
+        if (!profileImageFile.isEmpty()) {
+            profileImagePath = employeeProfileImageService.saveFile(profileImageFile);
         }
 
-		employeeProfileImageService.removeIfFileExists(employee.getProfilePath());
+        employeeProfileImageService.removeIfFileExists(employee.getProfileImagePath());
 
-		employee.update(employeeDto, profileImagePath);
+        employee.update(employeeDto, profileImagePath);
 
-		return responseService.success(employee.getId(), COMPLETE_PERSONAL_INFO_UPDATE);
-	}
+        return responseService.success(employee.getId(), COMPLETE_PERSONAL_INFO_UPDATE);
+    }
 
 	@Override
 	@Transactional(readOnly = true)
@@ -97,7 +138,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .phone(request.getPhone())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .hireDate(request.getHireDate())
-                .dayOffRemains(dayOffByPosition.getAmount())
+                .dayOffRemains((float) dayOffByPosition.getAmount())
                 .role(USER)
                 .build());
 

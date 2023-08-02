@@ -2,19 +2,17 @@ package com.toy4.domain.employee.domain;
 
 import com.toy4.domain.BaseEntity;
 import com.toy4.domain.department.domain.Department;
+import com.toy4.domain.employee.dto.EmployeeDto;
 import com.toy4.domain.employee.type.EmployeeRole;
 import com.toy4.domain.position.domain.Position;
 import com.toy4.domain.status.domain.Status;
-import java.time.LocalDate;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor
@@ -22,9 +20,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 public class Employee extends BaseEntity {
-
-  @Column(length = 255)
-  private String profileImagePath;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "position_id", referencedColumnName = "id", nullable = false)
@@ -47,6 +42,9 @@ public class Employee extends BaseEntity {
   @Column(name = "password", nullable = false)
   private String password;
 
+  @Column(length = 255)
+  private String profileImagePath;
+
   @Column(name = "hire_date", nullable = false)
   private LocalDate hireDate;
 
@@ -54,9 +52,10 @@ public class Employee extends BaseEntity {
   private LocalDate quitDate;
 
   @Column(name = "day_off_remains", nullable = false)
-  private int dayOffRemains;
+  private Float dayOffRemains;
 
   @Column(name = "role", nullable = false)
+  @Enumerated(EnumType.STRING)
   private EmployeeRole role;
 
   @Column(name = "phone", nullable = false)
@@ -73,5 +72,11 @@ public class Employee extends BaseEntity {
 
   @Column(name = "detail_address", length = 255)
   private String detailAddress;
+
+  public void update(EmployeeDto employeeDto, String profileImagePath) {
+    this.department = employeeDto.getDepartment();
+    this.profileImagePath= profileImagePath;
+    this.phone = employeeDto.getPhone();
+  }
 
 }

@@ -1,11 +1,5 @@
 package com.toy4.global.exception;
 
-import static com.toy4.global.response.type.ErrorCode.CONSTRAINT_VIOLATION;
-import static com.toy4.global.response.type.ErrorCode.FILE_MAXIMUM_SIZE;
-import static com.toy4.global.response.type.ErrorCode.INTERNAL_SERVER_ERROR;
-import static com.toy4.global.response.type.ErrorCode.INVALID_REQUEST;
-import static com.toy4.global.response.type.ErrorCode.LOAD_USER_FAILED;
-
 import com.toy4.domain.dayOffByPosition.exception.DayOffByPositionException;
 import com.toy4.domain.department.exception.DepartmentException;
 import com.toy4.domain.employee.exception.EmployeeException;
@@ -21,6 +15,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
+
+import static com.toy4.global.response.type.ErrorCode.*;
 
 
 @Slf4j
@@ -55,7 +51,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(DayOffByPositionException.class)
-    public CommonResponse<?> handledayOffByPositionException(DayOffByPositionException e) {
+    public CommonResponse<?> handleDayOffByPositionException(DayOffByPositionException e) {
         log.error("{} is occurred. {}", e.getErrorCode(), e.getErrorMessage());
         return responseService.failure(e.getErrorCode());
     }
@@ -89,4 +85,5 @@ public class GlobalExceptionHandler {
         log.error("Exception is occurred.", e);
         return responseService.failure(INTERNAL_SERVER_ERROR);
     }
+
 }

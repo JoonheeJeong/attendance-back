@@ -1,0 +1,11 @@
+DROP TABLE IF EXISTS duty_history;
+DROP TABLE IF EXISTS day_off_history;
+DROP TABLE IF EXISTS day_off;
+DROP TABLE IF EXISTS position_history;
+DROP TABLE IF EXISTS department_history;
+DROP TABLE IF EXISTS status_history;
+DROP TABLE IF EXISTS day_off_by_position;
+DROP TABLE IF EXISTS employee;
+DROP TABLE IF EXISTS position;
+DROP TABLE IF EXISTS department;
+DROP TABLE IF EXISTS status;

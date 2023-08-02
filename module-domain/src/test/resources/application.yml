@@ -1,0 +1,35 @@
+spring:
+
+  profiles:
+    active: test
+
+  datasource:
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=true;MODE=MySQL
+
+  sql:
+    init:
+      mode: embedded
+      schema-locations: classpath:db/schema.sql
+      data-locations: classpath:db/data.sql
+
+  h2:
+    console:
+      enabled: true
+
+  jpa:
+    database: h2
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+
+logging.level.org.hibernate:
+    sql: DEBUG
+    type.descriptor.sql.BasicBinder: TRACE
+

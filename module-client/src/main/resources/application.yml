@@ -1,42 +1,53 @@
+server:
+  port: 8080
+
+
+file.upload.path:
+  windows: D:\\attendance\\images\\
+  linux: /opt/attendance/images/
+
+
+logging.level.org.hibernate:
+  sql: DEBUG
+  type.descriptor.sql.BasicBinder: TRACE
+
+
 spring:
   servlet:
     multipart:
       enabled: true
       max-file-size: 10MB
       max-request-size: 30MB
+
   datasource:
     url: jdbc:mysql://localhost:3306/attendance?serverTimezone=UTC&charsetEncoding=UTF-8
     driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:h2:mem:main;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=true;MODE=MySQL
+#    driver-class-name: org.h2.Driver
     username: root
     password: 1q2w3e4r!@
-
-  servlet:
-    multipart:
-      enabled: true
-      max-file-size: 10MB
-      max-request-size: 30MB
+#    username: sa
+#    password:
 
   jpa:
-    generate-ddl: true
-    hibernate:
-      ddl-auto: update
-    show-sql: true
+#    generate-ddl: true
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: true
     database: mysql
+#    database: h2
+
+# 도메인 테스트를 위한 @EnableJpaAuditing 의 빈이 충돌되어 overriding 합니다.
+  main:
+    allow-bean-definition-overriding: true
+
   web:
     resources:
-      static-locations: classpath:/image/default/  
+      static-locations: classpath:/image/default/
+
   redis:
     host: 127.0.0.1
     port: 6379
 
   jwt:
     secret: U3ByaW5nIERheSBPZmYgYW5kIER1dHkgUHJvamVjdCBCeSBGYXN0IENhbXB1cyBNaW5pIFByb2VqY3QgNCB0ZWFt
-
-server:
-  port: 8080
-
-file:
-  upload:
-    path:
-      windows: D:\\attendance\\images\\
-      linux: /opt/attendance/images/

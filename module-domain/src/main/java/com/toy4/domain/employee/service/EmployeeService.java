@@ -6,9 +6,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface EmployeeService {
 
-    // 이메일 유효성 확인
-    CommonResponse<?> validateEmail(String email);
-    
     // 이메일 중복 확인
     CommonResponse<?> validateUniqueEmail(String email);
 

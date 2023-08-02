@@ -1,18 +1,19 @@
 package com.toy4.domain.department.service.impl;
 
-import static com.toy4.global.response.type.SuccessCode.SUCCESS;
-
 import com.toy4.domain.department.domain.Department;
 import com.toy4.domain.department.repository.DepartmentRepository;
 import com.toy4.domain.department.service.DepartmentService;
 import com.toy4.domain.department.type.DepartmentType;
 import com.toy4.global.response.dto.CommonResponse;
 import com.toy4.global.response.service.ResponseService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+
+import static com.toy4.global.response.type.SuccessCode.SUCCESS;
 
 @Service
 @RequiredArgsConstructor

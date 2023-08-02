@@ -1,10 +1,11 @@
 package com.toy4.global.response.type;
 
-import java.util.Arrays;
-import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
+
+import java.util.Arrays;
+import java.util.Optional;
 
 @Getter
 @AllArgsConstructor
@@ -39,7 +40,9 @@ public enum ErrorCode {
     ALREADY_REPORTED(HttpStatus.BAD_REQUEST, "이미 신고한 게시글입니다."),
 
     MISMATCH_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
-    ;
+
+    EMPLOYEE_NOT_FOUND(HttpStatus.BAD_REQUEST, "요청된 id를 가진 직원 정보를 찾을 수 없습니다."),
+    INVALID_DAY_OFF_TYPE(HttpStatus.BAD_REQUEST, "유효한 연차 유형은 ['오전 반차', '오후 반차', '연차', '특별 휴가'] 입니다.");
 
     private final HttpStatus httpStatus;
     private final String message;

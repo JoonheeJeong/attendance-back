@@ -2,15 +2,12 @@ package com.toy4.domain.dayOffByPosition.domain;
 
 import com.toy4.domain.BaseEntity;
 import com.toy4.domain.position.domain.Position;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
@@ -24,5 +21,5 @@ public class DayOffByPosition extends BaseEntity {
     private Position position;
 
     @Column(name = "amount", nullable = false)
-    private int amount;
+    private Integer amount;
 }

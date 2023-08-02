@@ -27,7 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
-public class EmployeeController {
+public class EmployeeAccountController {
 
     private final EmployeeService employeeService;
     private final ResponseService responseService;

@@ -1,4 +1,4 @@
-package com.toy4.employee.dto;
+package com.toy4.domain.employee.dto.request;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;

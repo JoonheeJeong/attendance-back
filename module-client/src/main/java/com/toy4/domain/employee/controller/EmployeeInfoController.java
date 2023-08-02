@@ -1,4 +1,4 @@
-package com.toy4.employee.controller;
+package com.toy4.domain.employee.controller;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.toy4.domain.employee.service.EmployeeService;
-import com.toy4.employee.dto.PersonalInfoRequest;
+import com.toy4.domain.employee.dto.request.PersonalInfoRequest;
 import com.toy4.global.response.dto.CommonResponse;
 
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ import lombok.extern.log4j.Log4j2;
 @RestController
 @RequiredArgsConstructor
 @Log4j2
-public class EmployeeController {
+public class EmployeeInfoController {
 
 	private final EmployeeService employeeService;
 

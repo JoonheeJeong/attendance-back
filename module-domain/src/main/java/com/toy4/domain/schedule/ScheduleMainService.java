@@ -1,8 +1,8 @@
 package com.toy4.domain.schedule;
 
-import com.toy4.domain.dayOffHistory.domain.DayOffHistory;
+import com.toy4.domain.dayOffHistory.dto.DayOffHistoryResponse;
 import com.toy4.domain.dayOffHistory.repository.DayOffHistoryRepository;
-import com.toy4.domain.dutyHistory.domain.DutyHistory;
+import com.toy4.domain.dutyHistory.dto.DutyHistoryResponse;
 import com.toy4.domain.dutyHistory.repository.DutyHistoryRepository;
 import com.toy4.domain.employee.domain.Employee;
 import com.toy4.domain.employee.exception.EmployeeException;
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -26,14 +27,20 @@ public class ScheduleMainService {
     public ScheduleResponse getSchedules(Long employeeId) {
         Employee employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new EmployeeException(ErrorCode.EMPLOYEE_NOT_FOUND));
-        List<DayOffHistory> dayOffHistories = dayOffHistoryRepository.findByEmployeeId(employeeId);
-        List<DutyHistory> duties = dutyHistoryRepository.findByEmployeeId(employeeId);
+        List<DayOffHistoryResponse> dayOffHistories =
+                dayOffHistoryRepository.findByEmployeeId(employeeId).stream()
+                        .map(DayOffHistoryResponse::from)
+                        .collect(Collectors.toList());
+        List<DutyHistoryResponse> duties =
+                dutyHistoryRepository.findByEmployeeId(employeeId).stream()
+                        .map(DutyHistoryResponse::from)
+                        .collect(Collectors.toList());
 
         return ScheduleResponse.builder()
                 .name(employee.getName())
                 .email(employee.getEmail())
                 .dayOffRemains(employee.getDayOffRemains())
-                .dayOffHistories(dayOffHistories)
+                .dayOffs(dayOffHistories)
                 .duties(duties)
                 .build();
     }

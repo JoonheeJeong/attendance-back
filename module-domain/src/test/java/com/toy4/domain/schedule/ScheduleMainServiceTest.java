@@ -13,8 +13,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,64 +25,48 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 public class ScheduleMainServiceTest {
 
-    @InjectMocks
+    @Autowired
     private ScheduleMainService scheduleMainService;
-    @Mock
+    @Autowired
     private EmployeeRepository employeeRepository;
-    @Mock
+    @Autowired
     private DayOffHistoryRepository dayOffHistoryRepository;
-    @Mock
+    @Autowired
     private DutyHistoryRepository dutyHistoryRepository;
+
+    @InjectMocks
+    private ScheduleMainService mockService;
+    @Mock
+    private EmployeeRepository employeeRepositoryMock;
+
 
     @DisplayName("[성공] 스케쥴 목록")
     @Test
     public void whenGetSchedules_success() {
-        final Employee employee = mock(Employee.class);
-        final Long employeeId = 1L;
-        final String employeeName = "김두한";
-        final String employeeEmail = "doohankim@email.com";
-        final Float employeeDayOffRemains = 15.f;
+        Employee employee = employeeRepository.findById(1L).orElseThrow();
+        List<DayOffHistory> dayOffHistories = dayOffHistoryRepository.findByEmployeeId(1L);
+        List<DutyHistory> dutyHistories = dutyHistoryRepository.findByEmployeeId(1L);
 
-        when(employee.getName()).thenReturn(employeeName);
-        when(employee.getEmail()).thenReturn(employeeEmail);
-        when(employee.getDayOffRemains()).thenReturn(employeeDayOffRemains);
-
-        final List<DayOffHistory> dayOffHistories = new ArrayList<>();
-        dayOffHistories.add(mock(DayOffHistory.class));
-        dayOffHistories.add(mock(DayOffHistory.class));
-
-        final List<DutyHistory> duties = new ArrayList<>();
-        duties.add(mock(DutyHistory.class));
-        duties.add(mock(DutyHistory.class));
-        duties.add(mock(DutyHistory.class));
-
-        when(dayOffHistoryRepository.findByEmployeeId(employeeId)).thenReturn(dayOffHistories);
-        when(dutyHistoryRepository.findByEmployeeId(employeeId)).thenReturn(duties);
-        when(employeeRepository.findById(employeeId)).thenReturn(Optional.of(employee));
-
-        ScheduleResponse scheduleResponse = scheduleMainService.getSchedules(employeeId);
-
-        verify(employeeRepository, times(1)).findById(employeeId);
-        verify(dayOffHistoryRepository, times(1)).findByEmployeeId(employeeId);
-        verify(dutyHistoryRepository, times(1)).findByEmployeeId(employeeId);
+        ScheduleResponse scheduleResponse = scheduleMainService.getSchedules(employee.getId());
 
         assertThat(scheduleResponse).isNotNull();
-        assertThat(scheduleResponse.getName()).isEqualTo(employeeName);
-        assertThat(scheduleResponse.getEmail()).isEqualTo(employeeEmail);
-        assertThat(scheduleResponse.getDayOffRemains()).isEqualTo(employeeDayOffRemains);
-        assertThat(scheduleResponse.getDayOffHistories()).hasSize(dayOffHistories.size());
-        assertThat(scheduleResponse.getDuties()).hasSize(duties.size());
+        assertThat(scheduleResponse.getName()).isEqualTo(employee.getName());
+        assertThat(scheduleResponse.getEmail()).isEqualTo(employee.getEmail());
+        assertThat(scheduleResponse.getDayOffRemains()).isEqualTo(employee.getDayOffRemains());
+        assertThat(scheduleResponse.getDayOffs()).hasSize(dayOffHistories.size());
+        assertThat(scheduleResponse.getDuties()).hasSize(dutyHistories.size());
     }
 
     @DisplayName("[예외] 스케쥴 목록")
     @Test
     public void whenGetSchedules_throwEmployeeExceptionNotFound() {
-        when(employeeRepository.findById(anyLong()))
+        lenient().when(employeeRepositoryMock.findById(anyLong()))
                 .thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> scheduleMainService.getSchedules(anyLong()))
+        assertThatThrownBy(() -> mockService.getSchedules(anyLong()))
                 .isInstanceOf(EmployeeException.class)
                 .hasFieldOrPropertyWithValue("errorCode", EMPLOYEE_NOT_FOUND);
     }

@@ -1,3 +1,13 @@
+file.upload.path:
+  windows: D:\\attendance\\images\\
+  linux: /opt/attendance/images/
+
+
+logging.level.org.hibernate:
+  sql: DEBUG
+  type.descriptor.sql.BasicBinder: TRACE
+
+
 spring:
 
   profiles:
@@ -21,7 +31,6 @@ spring:
 
   jpa:
     database: h2
-    database-platform: org.hibernate.dialect.MySQL8Dialect
     properties:
       hibernate:
         format_sql: true
@@ -29,7 +38,17 @@ spring:
     hibernate:
       ddl-auto: none
 
-logging.level.org.hibernate:
-    sql: DEBUG
-    type.descriptor.sql.BasicBinder: TRACE
+  # 도메인 테스트를 위한 @EnableJpaAuditing 의 빈이 충돌되어 overriding 합니다.
+  main:
+    allow-bean-definition-overriding: true
 
+  web:
+    resources:
+      static-locations: classpath:/image/default/
+
+  redis:
+    host: 127.0.0.1
+    port: 6379
+
+  jwt:
+    secret: U3ByaW5nIERheSBPZmYgYW5kIER1dHkgUHJvamVjdCBCeSBGYXN0IENhbXB1cyBNaW5pIFByb2VqY3QgNCB0ZWFt

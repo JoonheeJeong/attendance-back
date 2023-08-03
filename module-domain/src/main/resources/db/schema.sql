@@ -114,7 +114,7 @@ CREATE TABLE day_off_history
 (
     id               BIGINT PRIMARY KEY AUTO_INCREMENT,
     employee_id      BIGINT         NOT NULL,
-    day_off_id  BIGINT         NOT NULL,
+    day_off_id       BIGINT         NOT NULL,
     status           VARCHAR(20)    NOT NULL,
     start_date       DATE           NOT NULL,
     end_date         DATE           NOT NULL,

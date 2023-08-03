@@ -1,7 +1,7 @@
 package com.toy4.domain.schedule;
 
-import com.toy4.domain.dayOffHistory.domain.DayOffHistory;
-import com.toy4.domain.dutyHistory.domain.DutyHistory;
+import com.toy4.domain.dayOffHistory.dto.DayOffHistoryResponse;
+import com.toy4.domain.dutyHistory.dto.DutyHistoryResponse;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -14,6 +14,6 @@ public class ScheduleResponse {
     private String name;
     private String email;
     private Float dayOffRemains;
-    private List<DayOffHistory> dayOffHistories;
-    private List<DutyHistory> duties;
+    private List<DayOffHistoryResponse> dayOffs;
+    private List<DutyHistoryResponse> duties;
 }

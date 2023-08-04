@@ -45,9 +45,9 @@ VALUES
     ('SPECIAL_DAY_OFF',   0);
 
 -- 직원
-INSERT INTO employee (position_id, department_id, status_id, name, email, password, hire_date, day_off_remains, role, phone, birthdate)
+INSERT INTO employee (auth_token, position_id, department_id, status_id, name, email, password, hire_date, day_off_remains, role, phone, birthdate)
 VALUES
-    (1, 1, 1, '테스트유저1', 'testuser1@email.com', 'test1234', '2023-03-02', 15, 'USER', '010-1234-5678', '1996-07-30');
+    ('b902fc85-ccc5-4b5e-9a79-6488db8827bf', 1, 1, 1, '테스트유저1', 'testuser1@email.com', 'test1234', '2023-03-02', 15, 'USER', '010-1234-5678', '1996-07-30');
 
 INSERT INTO day_off_history(employee_id, day_off_id, status, start_date, end_date, total_amount, reason)
 VALUES

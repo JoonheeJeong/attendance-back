@@ -50,7 +50,7 @@ CREATE TABLE day_off
 CREATE TABLE employee
 (
     id                  BIGINT PRIMARY KEY AUTO_INCREMENT        COMMENT 'ID',
-    auth_token          VARCHAR(36)   NOT NULL                   COMMENT '인증 토큰';
+    auth_token          CHAR(36)      NOT NULL                   COMMENT '인증 토큰',
     position_id         BIGINT        NOT NULL                   COMMENT '직급 ID',
     department_id       BIGINT        NOT NULL                   COMMENT '부서 ID',
     status_id           BIGINT        NOT NULL                   COMMENT '회원상태 ID',

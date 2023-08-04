@@ -21,7 +21,7 @@ import java.time.LocalDate;
 @Entity
 public class Employee extends BaseEntity {
 
-    @Column(length = 255, nullable = false)
+    @Column(length = 36, nullable = false)
     private String authToken;
 
     @ManyToOne(fetch = FetchType.LAZY)

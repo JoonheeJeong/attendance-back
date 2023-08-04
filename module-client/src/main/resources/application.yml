@@ -2,9 +2,11 @@ server:
   port: 8080
 
 
-file.upload.path:
-  windows: D:\\attendance\\images\\
-  linux: ~/attendance/images/
+file:
+  upload:
+    path:
+      windows: D:\\attendance\\images\\
+      linux: /home/ubuntu/attendance/images/
 
 
 logging.level.org.hibernate:
@@ -22,7 +24,7 @@ spring:
     url: jdbc:mysql://localhost:3306/attendance?serverTimezone=UTC&charsetEncoding=UTF-8
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: 1q2w3e4r!@
+    password: root
 #    url: jdbc:h2:tcp://localhost/~/attendance;MODE=MySQL;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=true
 #    driver-class-name: org.h2.Driver
 #    username: sa
@@ -38,8 +40,9 @@ spring:
       enabled: true
 
   jpa:
-#    generate-ddl: true
+    generate-ddl: true
     hibernate:
+#      ddl-auto: none
       ddl-auto: create-drop
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
@@ -73,10 +76,3 @@ spring:
         smtp:
           starttls:
             enable: true
-
-file:
-  upload:
-    path:
-      windows: D:\\attendance\\images\\
-      linux: ~/attendance/images/
-

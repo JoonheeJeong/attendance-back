@@ -6,7 +6,7 @@ file:
   upload:
     path:
       windows: D:\\attendance\\images\\
-      linux: /opt/attendance/images/
+      linux: /home/ubuntu/attendance/images/
 
 
 logging.level.org.hibernate:
@@ -20,26 +20,24 @@ spring:
       enabled: true
       max-file-size: 10MB
       max-request-size: 30MB
+
   jackson:
     serialization:
       FAIL_ON_EMPTY_BEANS: false
 
-
   datasource:
     url: jdbc:mysql://localhost:3306/attendance?serverTimezone=UTC&charsetEncoding=UTF-8
     driver-class-name: com.mysql.cj.jdbc.Driver
-    #    url: jdbc:h2:mem:main;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=true;MODE=MySQL
-    #    driver-class-name: org.h2.Driver
     username: root
     password: root
-  #    username: sa
-  #    password:
+#    url: jdbc:h2:mem:main;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=true;MODE=MySQL
+#    driver-class-name: org.h2.Driver
+#    username: sa
 
   jpa:
-    #    generate-ddl: true
+    generate-ddl: false
     hibernate:
-      ddl-auto: update
-    #    show-sql: true
+      ddl-auto: none
     database: mysql
   #    database: h2
 

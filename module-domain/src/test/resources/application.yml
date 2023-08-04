@@ -1,6 +1,8 @@
-file.upload.path:
-  windows: D:\\attendance\\images\\
-  linux: /opt/attendance/images/
+file:
+  upload:
+    path:
+      windows: D:\\attendance\\images\\
+      linux: /home/ubuntu/attendance/images/
 
 
 logging.level.org.hibernate:
@@ -14,10 +16,9 @@ spring:
     active: test
 
   datasource:
-    username: sa
-    password:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=true;MODE=MySQL
+    username: sa
 
   sql:
     init:
@@ -34,7 +35,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
-    show-sql: false
     hibernate:
       ddl-auto: none
 

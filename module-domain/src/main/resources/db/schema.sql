@@ -1,3 +1,15 @@
+DROP TABLE IF EXISTS duty_history;
+DROP TABLE IF EXISTS day_off_history;
+DROP TABLE IF EXISTS day_off;
+DROP TABLE IF EXISTS position_history;
+DROP TABLE IF EXISTS department_history;
+DROP TABLE IF EXISTS status_history;
+DROP TABLE IF EXISTS day_off_by_position;
+DROP TABLE IF EXISTS employee;
+DROP TABLE IF EXISTS position;
+DROP TABLE IF EXISTS department;
+DROP TABLE IF EXISTS status;
+
 -- 직급(사원, 대리, 과장, 부장, 차장, 전무, 상무, 사장 등..)
 CREATE TABLE position
 (
@@ -42,7 +54,7 @@ CREATE TABLE employee
     day_off_remains    FLOAT        NOT NULL               COMMENT '잔여 연차수',
     role               VARCHAR(20)  NOT NULL               COMMENT '권한',
     phone              VARCHAR(60)  NOT NULL               COMMENT '전화번호',
-    birthdate          DATE         NOT NULL               COMMENT '생년월일',
+    birthdate          DATE                                COMMENT '생년월일',
     zip_address        CHAR(5)                             COMMENT '우편번호',
     road_address       VARCHAR(255)                        COMMENT '주소1(도로명)',
     detail_address     VARCHAR(255)                        COMMENT '주소2(상세주소)',

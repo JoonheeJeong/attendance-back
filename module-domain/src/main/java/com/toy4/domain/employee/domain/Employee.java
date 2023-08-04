@@ -64,7 +64,7 @@ public class Employee extends BaseEntity {
     @Column(name = "phone", nullable = false)
     private String phone;
 
-    @Column(name = "birthdate", nullable = false)
+    @Column(name = "birthdate")
     private LocalDate birthdate;
 
     @Column(name = "zip_address", columnDefinition = "CHAR(5)")

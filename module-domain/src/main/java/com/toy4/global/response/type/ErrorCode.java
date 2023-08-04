@@ -42,7 +42,11 @@ public enum ErrorCode {
     MISMATCH_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
 
     EMPLOYEE_NOT_FOUND(HttpStatus.BAD_REQUEST, "요청된 id를 가진 직원 정보를 찾을 수 없습니다."),
-    INVALID_DAY_OFF_TYPE(HttpStatus.BAD_REQUEST, "유효한 연차 유형은 ['오전 반차', '오후 반차', '연차', '특별 휴가'] 입니다.");
+    INVALID_DAY_OFF_TYPE(HttpStatus.BAD_REQUEST, "유효한 연차 유형은 ['오전 반차', '오후 반차', '연차', '특별 휴가'] 입니다."),
+    INVERTED_DAY_OFF_RANGE(HttpStatus.BAD_REQUEST, "종료 날짜는 시작 날짜와 같거나 이후이어야 합니다."),
+    RANGED_HALF_DAY_OFF(HttpStatus.BAD_REQUEST, "반차의 시작 날짜는 종료 날짜와 같아야 합니다."),
+    DAY_OFF_REMAINS_OVER(HttpStatus.BAD_REQUEST, "사용 가능한 연차의 개수보다 많이 신청하였습니다.")
+    ;
 
     private final HttpStatus httpStatus;
     private final String message;

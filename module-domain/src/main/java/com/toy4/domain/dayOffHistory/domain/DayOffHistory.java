@@ -1,6 +1,7 @@
 package com.toy4.domain.dayOffHistory.domain;
 
 import com.toy4.domain.BaseEntity;
+import com.toy4.domain.dayOffHistory.dto.DayOffRegistrationDto;
 import com.toy4.domain.dayoff.domain.DayOff;
 import com.toy4.domain.employee.domain.Employee;
 import com.toy4.domain.schedule.RequestStatus;
@@ -36,4 +37,16 @@ public class DayOffHistory extends BaseEntity {
     private Float totalAmount;
     @Column(name = "reason", nullable = false)
     private String reason;
+
+    public static DayOffHistory from(Employee employee, DayOff dayOff, float amount, DayOffRegistrationDto dto) {
+        return DayOffHistory.builder()
+                .employee(employee)
+                .dayOff(dayOff)
+                .status(RequestStatus.REQUESTED)
+                .startDate(dto.getStartDate())
+                .endDate(dto.getEndDate())
+                .totalAmount(amount)
+                .reason(dto.getReason())
+                .build();
+    }
 }

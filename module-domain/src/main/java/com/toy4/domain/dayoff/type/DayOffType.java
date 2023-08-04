@@ -19,6 +19,10 @@ public enum DayOffType {
 
     private final String type;
 
+    public boolean isHalfDayOff() {
+        return (this == FIRST_HALF_DAY_OFF || this == SECOND_HALF_DAY_OFF);
+    }
+
     public static DayOffType getByTypeString(String type) {
         return Arrays.stream(values())
                 .filter(dayOffType -> dayOffType.getType().equals(type))

@@ -1,9 +1,8 @@
-package com.toy4.domain.dayoff;
+package com.toy4.domain.dayOffHistory.repository;
 
 import com.toy4.domain.dayOffByPosition.domain.DayOffByPosition;
 import com.toy4.domain.dayOffByPosition.repository.DayOffByPositionRepository;
 import com.toy4.domain.dayOffHistory.domain.DayOffHistory;
-import com.toy4.domain.dayOffHistory.repository.DayOffHistoryRepository;
 import com.toy4.domain.dayoff.domain.DayOff;
 import com.toy4.domain.dayoff.repository.DayOffRepository;
 import com.toy4.domain.department.domain.Department;

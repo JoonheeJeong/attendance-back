@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/api/admin/duty")
+@RequestMapping("/api/admin/duties")
 @RequiredArgsConstructor
 @RestController
 public class DutyHistoryAdminController {

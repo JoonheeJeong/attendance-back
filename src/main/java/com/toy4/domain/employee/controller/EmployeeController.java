@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
-@RequestMapping("api/admin")
+@RequestMapping("/api/admin")
 @RestController
 public class EmployeeController {
 
@@ -40,7 +40,6 @@ public class EmployeeController {
 		CommonResponse<?> response = employeeService.updateEmployeeInfo(EmployeeInfoRequest.to(employeeInfoRequest), profile);
 		return ResponseEntity.ok(response);
 	}
-
 
 	@GetMapping("/employees/{employeeId}/day-offs")
 	public ResponseEntity<?> getEmployeeApprovedDayOff(@PathVariable Long employeeId) {

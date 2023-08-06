@@ -52,9 +52,13 @@ VALUES
 INSERT INTO day_off_history(employee_id, day_off_id, status, start_date, end_date, total_amount, reason)
 VALUES
     (1, 1, 'REQUESTED', '2023-07-31', '2023-07-31', 0.5, '늦잠 잘래요.'),
-    (1, 3, 'REQUESTED', '2023-08-01', '2023-08-03', 3, '놀래요.');
+    (1, 3, 'REQUESTED', '2023-08-01', '2023-08-03', 3, '놀래요.'),
+    (1, 1, 'APPROVED', '2023-07-21', '2023-08-21', 0.5, '늦잠 잘래요.'),
+    (1, 3, 'CANCELLED', '2023-08-23', '2023-08-25', 3, '놀래요.');
 
 INSERT INTO duty_history(employee_id, status, date, reason)
 VALUES
     (1, 'REQUESTED', '2023-08-09', '서버 점검.'),
-    (1, 'REQUESTED', '2023-08-10', '프로젝트 마감.');
+    (1, 'REQUESTED', '2023-08-10', '프로젝트 마감.'),
+    (1, 'APPROVED', '2023-08-18', '서버 점검.'),
+    (1, 'CANCELLED', '2023-08-25', '프로젝트 마감.');

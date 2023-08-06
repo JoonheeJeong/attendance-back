@@ -11,6 +11,7 @@ import lombok.Getter;
 public class FindDutyHistoryResponse {
 
     private final Long dutyId;
+    private final String type = "당직";
     private final String status;
     private final String date;
     private final String reason;

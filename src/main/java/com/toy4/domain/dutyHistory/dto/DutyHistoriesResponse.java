@@ -16,6 +16,7 @@ public class DutyHistoriesResponse {
 	private String hireDate;
 	private String requestDate;
 	private Long dutyId;
+	private final String type = "당직";
 	private String date;
 	private String status;
 

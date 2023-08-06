@@ -9,6 +9,7 @@ import lombok.Getter;
 @Getter
 public class ApprovedDutyResponse {
 	private Long dutyId;
+	private final String type = "당직";
 	private String  requestDate;
 	private String date;
 	private String status;

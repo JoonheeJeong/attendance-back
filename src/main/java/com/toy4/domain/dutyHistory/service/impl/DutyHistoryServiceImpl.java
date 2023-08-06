@@ -40,7 +40,7 @@ public class DutyHistoryServiceImpl implements DutyHistoryService {
 			.orElseThrow(() -> new EmployeeException(ErrorCode.ENTITY_NOT_FOUND));
 
 		List<DutyHistory> approveDuties = dutyHistoryRepository.findByEmployeeIdAndStatus(employee.getId(),
-			RequestStatus.ACCEPTED);
+			RequestStatus.APPROVED);
 
 		if (approveDuties.isEmpty()) {
 			return responseService.failure(ErrorCode.EMPLOYEE_APPROVED_DUTY_NOT_FOUND);

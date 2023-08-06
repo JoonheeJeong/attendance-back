@@ -33,7 +33,7 @@ public interface DayOffHistoryRepository extends JpaRepository<DayOffHistory, Lo
     @Query("SELECT s FROM DayOffHistory  s " +
         "WHERE s.employee.id = :employeeId " +
         "AND :date BETWEEN s.startDate AND s.endDate " +
-        "AND s.status IN ( :#{T(com.toy4.domain.schedule.RequestStatus).REQUESTED}, :#{T(com.toy4.domain.schedule.RequestStatus).ACCEPTED} )" +
+        "AND s.status IN ( :#{T(com.toy4.domain.schedule.RequestStatus).REQUESTED}, :#{T(com.toy4.domain.schedule.RequestStatus).APPROVED} )" +
         "AND s.dayOff.type IN ( :#{T(com.toy4.domain.dayoff.type.DayOffType).NORMAL_DAY_OFF}, :#{T(com.toy4.domain.dayoff.type.DayOffType).SPECIAL_DAY_OFF})")
     Optional<DayOffHistory> findOverlappedDate(Long employeeId, LocalDate date);
 }

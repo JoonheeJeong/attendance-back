@@ -40,7 +40,7 @@ public class DayOffHistoryServiceImpl implements DayOffHistoryService {
 			.orElseThrow(() -> new EmployeeException(ErrorCode.ENTITY_NOT_FOUND));
 
 		List<DayOffHistory> approveDayOffs = dayOffHistoryRepository.findByEmployeeIdAndStatus(employee.getId(),
-			RequestStatus.ACCEPTED);
+			RequestStatus.APPROVED);
 
 		if (approveDayOffs.isEmpty()) {
 			return responseService.failure(ErrorCode.EMPLOYEE_APPROVED_DAY_OFF_NOT_FOUND);
@@ -79,7 +79,7 @@ public class DayOffHistoryServiceImpl implements DayOffHistoryService {
 		dayOffHistory.updateStatusDayOff(dto);
 		dayOffHistoryRepository.save(dayOffHistory);
 
-		if (dayOffHistory.getStatus() == RequestStatus.ACCEPTED) {
+		if (dayOffHistory.getStatus() == RequestStatus.APPROVED) {
 
 			float totalAmount = dayOffHistory.getTotalAmount();
 

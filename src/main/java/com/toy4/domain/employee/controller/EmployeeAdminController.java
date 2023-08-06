@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 @RequestMapping("/api/admin")
 @RestController
-public class EmployeeController {
+public class EmployeeAdminController {
 
 	private final EmployeeService employeeService;
 	private final DayOffHistoryService dayOffHistoryService;

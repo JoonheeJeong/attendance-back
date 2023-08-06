@@ -18,12 +18,6 @@ public interface DayOffHistoryRepository extends JpaRepository<DayOffHistory, Lo
 
     @Query("SELECT s FROM DayOffHistory s " +
         "WHERE s.employee.id = :employeeId " +
-        "AND s.startDate <= :endDate " +
-        "AND s.endDate >= :startDate")
-    List<DayOffHistory> findByEmployeeIdAndDateRange(Long employeeId, LocalDate startDate, LocalDate endDate);
-
-    @Query("SELECT s FROM DayOffHistory s " +
-        "WHERE s.employee.id = :employeeId " +
         "AND s.status = :status")
     List<DayOffHistory> findByEmployeeIdAndStatus(Long employeeId, RequestStatus status);
 

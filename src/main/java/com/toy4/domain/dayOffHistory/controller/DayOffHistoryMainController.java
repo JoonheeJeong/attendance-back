@@ -1,5 +1,6 @@
 package com.toy4.domain.dayOffHistory.controller;
 
+import com.toy4.domain.dayOffHistory.dto.DayOffCancellationRequest;
 import com.toy4.domain.dayOffHistory.dto.DayOffRegistrationRequest;
 import com.toy4.domain.dayOffHistory.service.DayOffHistoryMainService;
 import com.toy4.domain.dayoff.exception.DayOffException;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.Objects;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -42,9 +44,33 @@ public class DayOffHistoryMainController {
                 .body(responseService.success(null, SuccessCode.SUCCESS));
     }
 
+    @PutMapping("/schedules/day-off/{dayOffId}/status")
+    public ResponseEntity<?> requestDayOffCancellation(
+            @PathVariable("dayOffId") Long dayOffHistoryId,
+            @Valid @RequestBody DayOffCancellationRequest requestBody,
+            BindingResult bindingResult) {
+
+        if (bindingResult.hasFieldErrors()) {
+            log.error("[POST /api/schedules/day-off] errors: {}", bindingResult.getFieldErrors());
+            String errorMessage = getErrorMessageFromBindingResult(bindingResult);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(responseService.failure(errorMessage));
+        }
+
+        dayOffHistoryMainService.cancelDayOffRegistrationRequest(dayOffHistoryId, requestBody);
+
+        return ResponseEntity.ok(responseService.success(null, SuccessCode.SUCCESS));
+    }
+
     @ExceptionHandler
     public ResponseEntity<?> handleDayOffException(DayOffException e) {
         return ResponseEntity.status(e.getHttpStatus())
                 .body(responseService.failure(e.getErrorCode()));
+    }
+
+    /** bindingResult ErrorMessage 반환 */
+    private String getErrorMessageFromBindingResult(BindingResult bindingResult) {
+        return Objects.requireNonNull(bindingResult.getFieldError())
+                .getDefaultMessage();
     }
 }

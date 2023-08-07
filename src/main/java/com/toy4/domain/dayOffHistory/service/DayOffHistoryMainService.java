@@ -1,6 +1,7 @@
 package com.toy4.domain.dayOffHistory.service;
 
 import com.toy4.domain.dayOffHistory.domain.DayOffHistory;
+import com.toy4.domain.dayOffHistory.dto.DayOffCancellationRequest;
 import com.toy4.domain.dayOffHistory.dto.DayOffRegistrationDto;
 import com.toy4.domain.dayOffHistory.repository.DayOffHistoryRepository;
 import com.toy4.domain.dayoff.domain.DayOff;
@@ -9,6 +10,7 @@ import com.toy4.domain.dayoff.repository.DayOffRepository;
 import com.toy4.domain.dayoff.type.DayOffType;
 import com.toy4.domain.employee.domain.Employee;
 import com.toy4.domain.employee.repository.EmployeeRepository;
+import com.toy4.domain.schedule.RequestStatus;
 import com.toy4.global.response.type.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -63,5 +65,23 @@ public class DayOffHistoryMainService {
             return 0.0f;
         }
         return (float) (daysDifference + 1);
+    }
+
+    @Transactional
+    public void cancelDayOffRegistrationRequest(Long dayOffHistoryId, DayOffCancellationRequest requestBody) {
+        if (!requestBody.getStatus().equals("취소")) {
+            throw new DayOffException(ErrorCode.INVALID_SCHEDULE_REQUEST_STATUS);
+        }
+        Employee employee = employeeRepository.findById(requestBody.getEmployeeId())
+                .orElseThrow(() -> new DayOffException(ErrorCode.EMPLOYEE_NOT_FOUND));
+        DayOffHistory dayOffHistory = dayOffHistoryRepository.findById(dayOffHistoryId)
+                .orElseThrow(() -> new DayOffException(ErrorCode.DAY_OFF_NOT_FOUND));
+        if (dayOffHistory.getStatus() == RequestStatus.CANCELLED) {
+            throw new DayOffException(ErrorCode.ALREADY_CANCELLED_SCHEDULE);
+        }
+        if (employee != dayOffHistory.getEmployee()) {
+            throw new DayOffException(ErrorCode.UNMATCHED_SCHEDULE_AND_EMPLOYEE);
+        }
+        dayOffHistory.updateStatus(RequestStatus.CANCELLED);
     }
 }

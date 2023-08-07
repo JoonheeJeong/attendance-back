@@ -60,7 +60,9 @@ public enum ErrorCode {
     UNMATCHED_SCHEDULE_AND_EMPLOYEE(HttpStatus.BAD_REQUEST, "요청된 스케쥴 id와 직원 id가 매칭되지 않습니다."),
     ALREADY_CANCELLED_SCHEDULE(HttpStatus.BAD_REQUEST, "이미 취소 처리되어 더 이상 변경할 수 없는 스케쥴입니다."),
 
-    DAY_OFF_NOT_FOUND(HttpStatus.BAD_REQUEST, "요청된 id를 가진 연차 정보를 찾을 수 없습니다.")
+    DAY_OFF_NOT_FOUND(HttpStatus.BAD_REQUEST, "요청된 id를 가진 연차 정보를 찾을 수 없습니다."),
+
+    DUTY_HISTORY_NOT_FOUND(HttpStatus.BAD_REQUEST, "요청된 id를 가진 당직 정보를 찾을 수 없습니다.")
     ;
 
     private final HttpStatus httpStatus;

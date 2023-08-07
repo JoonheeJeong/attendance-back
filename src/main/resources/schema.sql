@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS login_history;
 DROP TABLE IF EXISTS duty_history;
 DROP TABLE IF EXISTS day_off_history;
 DROP TABLE IF EXISTS day_off;
@@ -155,11 +156,11 @@ CREATE TABLE duty_history
 
 -- 로그인 이력
 CREATE TABLE login_history (
-                               id          BIGINT PRIMARY KEY AUTO_INCREMENT,
-                               employee_id BIGINT NOT NULL,
-                               client_ip   VARCHAR(255),
-                               user_agent  VARCHAR(255),
-                               created_at  TIMESTAMP,
-                               updated_at  TIMESTAMP,
-                               FOREIGN KEY (employee_id) REFERENCES employee (id)
+    id          BIGINT PRIMARY KEY AUTO_INCREMENT,
+    employee_id BIGINT NOT NULL,
+    client_ip   VARCHAR(255),
+    user_agent  VARCHAR(255),
+    created_at  TIMESTAMP,
+    updated_at  TIMESTAMP,
+    FOREIGN KEY (employee_id) REFERENCES employee (id)
 );

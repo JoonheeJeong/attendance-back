@@ -43,4 +43,8 @@ public class DutyHistory extends BaseEntity {
                 .reason(requestBody.getReason())
                 .build();
     }
+
+    public void updateStatus(RequestStatus requestStatus) {
+        this.status = requestStatus;
+    }
 }

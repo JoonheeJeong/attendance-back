@@ -2,6 +2,7 @@ package com.toy4.domain.dutyHistory.controller;
 
 import com.toy4.domain.dutyHistory.dto.DutyCancellationRequest;
 import com.toy4.domain.dutyHistory.dto.DutyRegistrationRequest;
+import com.toy4.domain.dutyHistory.dto.DutyUpdateRequest;
 import com.toy4.domain.dutyHistory.exception.DutyHistoryException;
 import com.toy4.domain.dutyHistory.service.DutyHistoryMainService;
 import com.toy4.global.response.service.ResponseService;
@@ -19,7 +20,7 @@ import java.net.URI;
 
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/schedules/duty")
 @RestController
 public class DutyHistoryMainController {
 
@@ -27,7 +28,7 @@ public class DutyHistoryMainController {
     private final ResponseService responseService;
     private final BindingResultHandler bindingResultHandler;
 
-    @PostMapping("/schedules/duty")
+    @PostMapping
     public ResponseEntity<?> requestDutyRegistration(
             @Valid @RequestBody DutyRegistrationRequest requestBody,
             BindingResult bindingResult) {
@@ -45,7 +46,7 @@ public class DutyHistoryMainController {
                 .body(responseService.success(null, SuccessCode.SUCCESS));
     }
 
-    @PutMapping("/schedules/duty/{dutyId}/status")
+    @PutMapping("/{dutyId}/status")
     public ResponseEntity<?> requestDutyCancellation(
             @PathVariable("dutyId") Long dutyHistoryId,
             @Valid @RequestBody DutyCancellationRequest requestBody,
@@ -61,6 +62,24 @@ public class DutyHistoryMainController {
         dutyHistoryMainService.cancelDutyRegistrationRequest(dutyHistoryId, requestBody);
 
         return ResponseEntity.ok(responseService.success(null, SuccessCode.SUCCESS));
+    }
+
+    @PutMapping("/{dutyId}")
+    public ResponseEntity<?> requestDutyUpdate(
+            @PathVariable("dutyId") Long dutyHistoryId,
+            @Valid @RequestBody DutyUpdateRequest requestBody,
+            BindingResult bindingResult) {
+
+        if (bindingResult.hasFieldErrors()) {
+            log.error("[error] PUT /api/schedules/duty/{}: {}", dutyHistoryId, bindingResult.getFieldErrors());
+            String errorMessage = bindingResultHandler.getErrorMessageFromBindingResult(bindingResult);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(responseService.failure(errorMessage));
+        }
+
+        dutyHistoryMainService.updateDutyRegistrationRequest(dutyHistoryId, requestBody);
+
+        return ResponseEntity.ok(responseService.success());
     }
 
     @ExceptionHandler

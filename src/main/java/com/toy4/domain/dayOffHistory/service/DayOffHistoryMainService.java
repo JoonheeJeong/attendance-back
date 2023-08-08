@@ -84,4 +84,27 @@ public class DayOffHistoryMainService {
         }
         dayOffHistory.updateStatus(RequestStatus.CANCELLED);
     }
+
+    @Transactional
+    public void updateDayOffRegistrationRequest(Long dayOffHistoryId, DayOffHistoryMainDto dto) {
+        DayOff dayOff = dayOffRepository.findByType(dto.getType());
+        DayOffHistory dayOffHistory = dayOffHistoryRepository.findById(dayOffHistoryId)
+                .orElseThrow(() -> new DayOffException(ErrorCode.DAY_OFF_NOT_FOUND));
+        if (dayOffHistory.getStatus() != RequestStatus.REQUESTED) {
+            throw new DayOffException(ErrorCode.ALREADY_RESPONDED_SCHEDULE);
+        }
+        Employee employee = employeeRepository.findById(dto.getEmployeeId())
+                .orElseThrow(() -> new DayOffException(ErrorCode.EMPLOYEE_NOT_FOUND));
+        float updatedAmount = calculateAmount(dto);
+        float newDayOffRemains = employee.getDayOffRemains() - dayOffHistory.getTotalAmount() + updatedAmount;
+        if (newDayOffRemains < 0) {
+            throw new DayOffException(ErrorCode.DAY_OFF_REMAINS_OVER);
+        }
+
+        // TODO -- OVERLAPPED_DAY_OFF_DATE
+
+        employee.updateDayOffRemains(newDayOffRemains);
+
+        dayOffHistory.update(dayOff, updatedAmount, dto);
+    }
 }

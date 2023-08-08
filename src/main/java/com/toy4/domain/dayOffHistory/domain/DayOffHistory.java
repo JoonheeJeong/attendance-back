@@ -57,4 +57,12 @@ public class DayOffHistory extends BaseEntity {
     public void updateStatus(RequestStatus requestStatus) {
         this.status = requestStatus;
     }
+
+    public void update(DayOff dayOff, float amount, DayOffHistoryMainDto dto) {
+        this.dayOff = dayOff;
+        this.startDate = dto.getStartDate();
+        this.endDate = dto.getEndDate();
+        this.totalAmount = amount;
+        this.reason = dto.getReason();
+    }
 }

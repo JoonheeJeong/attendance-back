@@ -27,6 +27,7 @@ public interface DutyHistoryRepository extends JpaRepository<DutyHistory, Long> 
 
     @Query("SELECT s FROM DutyHistory s " +
            "WHERE s.employee.id = :employeeId " +
+             "AND s.status IN ( :#{T(com.toy4.domain.schedule.RequestStatus).REQUESTED}, :#{T(com.toy4.domain.schedule.RequestStatus).APPROVED} ) " +
              "AND s.date = :date")
     Optional<DutyHistory> findOverlappedDate(Long employeeId, LocalDate date);
 

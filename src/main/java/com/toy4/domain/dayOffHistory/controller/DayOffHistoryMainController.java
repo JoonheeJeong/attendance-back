@@ -1,6 +1,7 @@
 package com.toy4.domain.dayOffHistory.controller;
 
 import com.toy4.domain.dayOffHistory.dto.DayOffCancellationRequest;
+import com.toy4.domain.dayOffHistory.dto.DayOffModificationRequest;
 import com.toy4.domain.dayOffHistory.dto.DayOffRegistrationRequest;
 import com.toy4.domain.dayOffHistory.service.DayOffHistoryMainService;
 import com.toy4.domain.dayoff.exception.DayOffException;
@@ -59,6 +60,24 @@ public class DayOffHistoryMainController {
         }
 
         dayOffHistoryMainService.cancelDayOffRegistrationRequest(dayOffHistoryId, requestBody);
+
+        return ResponseEntity.ok(responseService.success(null, SuccessCode.SUCCESS));
+    }
+
+    @PutMapping("/schedules/day-off/{dayOffId}")
+    public ResponseEntity<?> requestDayOffUpdate(
+            @PathVariable("dayOffId") Long dayOffHistoryId,
+            @Valid @RequestBody DayOffModificationRequest requestBody,
+            BindingResult bindingResult) {
+
+        if (bindingResult.hasFieldErrors()) {
+            log.error("[PUT /api/schedules/day-off/{}] errors: {}", dayOffHistoryId, bindingResult.getFieldErrors());
+            String errorMessage = bindingResultHandler.getErrorMessageFromBindingResult(bindingResult);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(responseService.failure(errorMessage));
+        }
+
+        dayOffHistoryMainService.updateDayOffRegistrationRequest(dayOffHistoryId, requestBody.toDto());
 
         return ResponseEntity.ok(responseService.success(null, SuccessCode.SUCCESS));
     }

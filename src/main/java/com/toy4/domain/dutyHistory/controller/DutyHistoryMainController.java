@@ -7,6 +7,7 @@ import com.toy4.domain.dutyHistory.service.DutyHistoryMainService;
 import com.toy4.global.response.service.ResponseService;
 import com.toy4.global.response.type.ErrorCode;
 import com.toy4.global.response.type.SuccessCode;
+import com.toy4.global.utils.BindingResultHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.Objects;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -26,6 +26,7 @@ public class DutyHistoryMainController {
 
     private final DutyHistoryMainService dutyHistoryMainService;
     private final ResponseService responseService;
+    private final BindingResultHandler bindingResultHandler;
 
     @PostMapping("/schedules/duty")
     public ResponseEntity<?> requestDutyRegistration(
@@ -53,7 +54,7 @@ public class DutyHistoryMainController {
 
         if (bindingResult.hasFieldErrors()) {
             log.error("[error] PUT /api/schedules/duty/{}/status: {}", dutyHistoryId, bindingResult.getFieldErrors());
-            String errorMessage = getErrorMessageFromBindingResult(bindingResult);
+            String errorMessage = bindingResultHandler.getErrorMessageFromBindingResult(bindingResult);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(responseService.failure(errorMessage));
         }
@@ -67,11 +68,5 @@ public class DutyHistoryMainController {
     public ResponseEntity<?> handleDutyHistoryException(DutyHistoryException e) {
         return ResponseEntity.status(e.getHttpStatus())
                 .body(responseService.failure(e.getErrorCode()));
-    }
-
-    /** bindingResult ErrorMessage 반환 */
-    private String getErrorMessageFromBindingResult(BindingResult bindingResult) {
-        return Objects.requireNonNull(bindingResult.getFieldError())
-                .getDefaultMessage();
     }
 }

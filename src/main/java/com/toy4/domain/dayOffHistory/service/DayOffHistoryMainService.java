@@ -8,6 +8,8 @@ import com.toy4.domain.dayoff.domain.DayOff;
 import com.toy4.domain.dayoff.exception.DayOffException;
 import com.toy4.domain.dayoff.repository.DayOffRepository;
 import com.toy4.domain.dayoff.type.DayOffType;
+import com.toy4.domain.dutyHistory.domain.DutyHistory;
+import com.toy4.domain.dutyHistory.repository.DutyHistoryRepository;
 import com.toy4.domain.employee.domain.Employee;
 import com.toy4.domain.employee.repository.EmployeeRepository;
 import com.toy4.domain.schedule.RequestStatus;
@@ -18,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -26,6 +29,7 @@ public class DayOffHistoryMainService {
     private final DayOffHistoryRepository dayOffHistoryRepository;
     private final EmployeeRepository employeeRepository;
     private final DayOffRepository dayOffRepository;
+    private final DutyHistoryRepository dutyHistoryRepository;
 
     @Transactional
     public void registerDayOff(DayOffHistoryMainDto dto) {
@@ -96,12 +100,28 @@ public class DayOffHistoryMainService {
         Employee employee = employeeRepository.findById(dto.getEmployeeId())
                 .orElseThrow(() -> new DayOffException(ErrorCode.EMPLOYEE_NOT_FOUND));
         float updatedAmount = calculateAmount(dto);
-        float newDayOffRemains = employee.getDayOffRemains() - dayOffHistory.getTotalAmount() + updatedAmount;
+        float newDayOffRemains = employee.getDayOffRemains() + dayOffHistory.getTotalAmount() - updatedAmount;
         if (newDayOffRemains < 0) {
             throw new DayOffException(ErrorCode.DAY_OFF_REMAINS_OVER);
         }
 
-        // TODO -- OVERLAPPED_DAY_OFF_DATE
+        // 1. 반차일 경우 REQUESTED, APPROVED 상태 중에서 같은 날 같은 유형의 반차나 날짜가 겹치는 '연차', '특별 휴가'가 있거나
+        if (dto.getType().isHalfDayOff()) {
+            List<DayOffHistory> overlappedDayOffHistories = dayOffHistoryRepository.findAllOverlappedDate(employee, dto.getType(), dto.getStartDate());
+            if (!overlappedDayOffHistories.isEmpty()) {
+                throw new DayOffException(ErrorCode.OVERLAPPED_DAY_OFF_DATE);
+            }
+        // 2. 연차일 경우 REQUESTED, APPROVED 상태 중에서 날짜가 겹치는 연차/당직이 있거나
+        } else {
+            List<DayOffHistory> overlappedDayOffHistories = dayOffHistoryRepository.findAllOverlappedDate(employee, dto.getStartDate(), dto.getEndDate());
+            if (!overlappedDayOffHistories.isEmpty()) {
+                throw new DayOffException(ErrorCode.OVERLAPPED_DAY_OFF_DATE);
+            }
+            List<DutyHistory> overlappedDutyHistories = dutyHistoryRepository.findOverlappedDate(employee, dto.getStartDate(), dto.getEndDate());
+            if (!overlappedDutyHistories.isEmpty()) {
+                throw new DayOffException(ErrorCode.OVERLAPPED_DAY_OFF_DATE);
+            }
+        }
 
         employee.updateDayOffRemains(newDayOffRemains);
 

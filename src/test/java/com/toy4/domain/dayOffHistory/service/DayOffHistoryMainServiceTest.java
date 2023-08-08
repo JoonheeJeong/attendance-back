@@ -49,7 +49,7 @@ class DayOffHistoryMainServiceTest {
 
     @BeforeEach
     void setup() {
-        mockSut = new DayOffHistoryMainService(mockDayOffHistoryRepo, mockEmpRepo, mockDayOffRepo);
+        mockSut = new DayOffHistoryMainService(mockDayOffHistoryRepo, mockEmpRepo, mockDayOffRepo, null);
     }
 
     @DisplayName("[예외] 종료 날짜가 시작 날짜보다 빠른 경우")

@@ -65,7 +65,7 @@ public enum ErrorCode {
 
     DUTY_HISTORY_NOT_FOUND(HttpStatus.BAD_REQUEST, "요청된 id를 가진 당직 정보를 찾을 수 없습니다."),
 
-    OVERLAPPED_DAY_OFF_DATE(HttpStatus.BAD_REQUEST, "이미 존재하는 '요청됨' 또는 '승인됨' 상태의 연차/당직과 날짜가 겹칩니다."),
+    OVERLAPPED_DAY_OFF_DATE(HttpStatus.BAD_REQUEST, "이미 존재하는 '요청됨' 또는 '승인됨' 상태의 연차 또는 당직과 날짜가 겹칩니다."),
     ;
 
     private final HttpStatus httpStatus;

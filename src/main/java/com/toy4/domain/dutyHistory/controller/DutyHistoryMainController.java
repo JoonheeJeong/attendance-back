@@ -5,7 +5,6 @@ import com.toy4.domain.dutyHistory.dto.DutyRegistrationRequest;
 import com.toy4.domain.dutyHistory.exception.DutyHistoryException;
 import com.toy4.domain.dutyHistory.service.DutyHistoryMainService;
 import com.toy4.global.response.service.ResponseService;
-import com.toy4.global.response.type.ErrorCode;
 import com.toy4.global.response.type.SuccessCode;
 import com.toy4.global.utils.BindingResultHandler;
 import lombok.RequiredArgsConstructor;
@@ -33,11 +32,11 @@ public class DutyHistoryMainController {
             @Valid @RequestBody DutyRegistrationRequest requestBody,
             BindingResult bindingResult) {
 
-        if (bindingResult.hasErrors()) {
+        if (bindingResult.hasFieldErrors()) {
             log.info("[POST /api/schedules/duty] errors");
-            bindingResult.getAllErrors().forEach(objectError -> log.info("{}", objectError));
+            String errorMessage = bindingResultHandler.getErrorMessageFromBindingResult(bindingResult);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(responseService.failure(ErrorCode.INVALID_REQUEST));
+                    .body(responseService.failure(errorMessage));
         }
 
         dutyHistoryMainService.registerDuty(requestBody);

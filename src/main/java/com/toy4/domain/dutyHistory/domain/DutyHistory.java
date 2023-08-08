@@ -47,4 +47,8 @@ public class DutyHistory extends BaseEntity {
     public void updateStatus(RequestStatus requestStatus) {
         this.status = requestStatus;
     }
+
+    public void updateDate(LocalDate date) {
+        this.date = date;
+    }
 }

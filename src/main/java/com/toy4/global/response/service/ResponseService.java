@@ -8,6 +8,11 @@ import java.util.List;
 
 public interface ResponseService {
 
+    // null 데이터, 기본 성공 응답
+    default <T> CommonResponse<T> success() {
+        return success(null, SuccessCode.SUCCESS);
+    }
+
     // 단일 데이터가 존재하는 성공 응답
     <T> CommonResponse<T> success(T data, SuccessCode successCode);
 

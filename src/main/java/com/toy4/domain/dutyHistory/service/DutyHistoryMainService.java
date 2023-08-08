@@ -50,7 +50,7 @@ public class DutyHistoryMainService {
         Employee employee = employeeRepository.findById(requestBody.getEmployeeId())
                 .orElseThrow(() -> new DutyHistoryException(ErrorCode.EMPLOYEE_NOT_FOUND));
         DutyHistory dutyHistory = dutyHistoryRepository.findById(dutyHistoryId)
-                .orElseThrow(() -> new DutyHistoryException(ErrorCode.DUTY_HISTORY_NOT_FOUND));
+                .orElseThrow(() -> new DutyHistoryException(ErrorCode.DUTY_NOT_FOUND));
         if (dutyHistory.getStatus() == RequestStatus.CANCELLED) {
             throw new DutyHistoryException(ErrorCode.ALREADY_CANCELLED_SCHEDULE);
         }

@@ -1,7 +1,7 @@
 package com.toy4.domain.dayOffHistory.service;
 
 import com.toy4.domain.dayOffHistory.domain.DayOffHistory;
-import com.toy4.domain.dayOffHistory.dto.DayOffRegistrationDto;
+import com.toy4.domain.dayOffHistory.dto.DayOffHistoryMainDto;
 import com.toy4.domain.dayOffHistory.repository.DayOffHistoryRepository;
 import com.toy4.domain.dayoff.domain.DayOff;
 import com.toy4.domain.dayoff.exception.DayOffException;
@@ -45,7 +45,7 @@ class DayOffHistoryMainServiceTest {
     private DayOffRepository mockDayOffRepo;
 
     @Mock
-    private DayOffRegistrationDto mockDto;
+    private DayOffHistoryMainDto mockDto;
 
     @BeforeEach
     void setup() {

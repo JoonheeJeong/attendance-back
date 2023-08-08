@@ -25,6 +25,7 @@ public class DutyHistoryMainService {
     private final EmployeeRepository employeeRepository;
     private final DayOffHistoryRepository dayOffHistoryRepository;
 
+    @Transactional
     public void registerDuty(DutyRegistrationRequest requestBody) {
         Employee employee = employeeRepository.findById(requestBody.getEmployeeId())
                 .orElseThrow(() -> new DutyHistoryException(ErrorCode.EMPLOYEE_NOT_FOUND));

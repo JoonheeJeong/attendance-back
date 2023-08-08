@@ -44,7 +44,7 @@ public class DutyHistoryMainService {
 
     @Transactional
     public void cancelDutyRegistrationRequest(Long dutyHistoryId, DutyCancellationRequest requestBody) {
-        if (!requestBody.getStatus().equals("취소")) {
+        if (!requestBody.getStatus().equals(RequestStatus.CANCELLED.getDescription())) {
             throw new DutyHistoryException(ErrorCode.INVALID_SCHEDULE_REQUEST_STATUS);
         }
         Employee employee = employeeRepository.findById(requestBody.getEmployeeId())

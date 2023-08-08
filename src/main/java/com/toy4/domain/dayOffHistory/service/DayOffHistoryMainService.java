@@ -73,7 +73,7 @@ public class DayOffHistoryMainService {
 
     @Transactional
     public void cancelDayOffRegistrationRequest(Long dayOffHistoryId, DayOffCancellationRequest requestBody) {
-        if (!requestBody.getStatus().equals("취소")) {
+        if (!requestBody.getStatus().equals(RequestStatus.CANCELLED.getDescription())) {
             throw new DayOffException(ErrorCode.INVALID_SCHEDULE_REQUEST_STATUS);
         }
         Employee employee = employeeRepository.findById(requestBody.getEmployeeId())

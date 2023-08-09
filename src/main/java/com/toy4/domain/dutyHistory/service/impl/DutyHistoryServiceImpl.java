@@ -67,6 +67,8 @@ public class DutyHistoryServiceImpl implements DutyHistoryService {
 		return responseService.successList(responses, SUCCESS);
 	}
 
+	@Override
+	@Transactional
 	public void updateDutyStatus(DutyStatusUpdate dto) {
 		DutyHistory dutyHistory = dutyHistoryRepository.findById(dto.getId())
 			.orElseThrow(() -> new DutyHistoryException(ErrorCode.DUTY_NOT_FOUND));

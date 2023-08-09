@@ -14,10 +14,10 @@ public class DutyHistoryRequest {
 	@NotBlank
 	private String status;
 
-	public static DutyHistoryDto to(DutyHistoryRequest request) {
-		return DutyHistoryDto.builder()
-			.id(request.getDutyId())
-			.status(RequestStatus.getByDescription(request.getStatus()))
+	public DutyStatusUpdate toDto() {
+		return DutyStatusUpdate.builder()
+			.id(dutyId)
+			.status(RequestStatus.getByDescription(status))
 			.build();
 	}
 }

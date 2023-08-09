@@ -3,10 +3,12 @@ package com.toy4.domain.dutyHistory.controller;
 import com.toy4.domain.dutyHistory.dto.DutyHistoryRequest;
 import com.toy4.domain.dutyHistory.service.DutyHistoryService;
 import com.toy4.global.response.dto.CommonResponse;
+import com.toy4.global.response.service.ResponseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RequestMapping("/api/admin/duties")
 @RequiredArgsConstructor
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class DutyHistoryAdminController {
 
 	private final DutyHistoryService dutyHistoryService;
+	private final ResponseService responseService;
 
 	@GetMapping
 	public ResponseEntity<?> getDuties() {
@@ -22,9 +25,10 @@ public class DutyHistoryAdminController {
 	}
 
 	@PutMapping
-	public ResponseEntity<?> updateDutyStatus(
-		@Validated @RequestBody DutyHistoryRequest request) {
-		CommonResponse<?> response = dutyHistoryService.updateStatusDuty(DutyHistoryRequest.to(request));
-		return ResponseEntity.ok(response);
+	public ResponseEntity<?> respondDutyRegistrationRequest(
+		@Valid @RequestBody DutyHistoryRequest requestBody) {
+
+		dutyHistoryService.updateDutyStatus(requestBody.toDto());
+		return ResponseEntity.ok(responseService.success());
 	}
 }

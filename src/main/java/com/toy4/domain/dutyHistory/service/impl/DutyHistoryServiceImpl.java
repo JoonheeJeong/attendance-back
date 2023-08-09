@@ -1,17 +1,9 @@
 package com.toy4.domain.dutyHistory.service.impl;
 
-import static com.toy4.global.response.type.SuccessCode.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.toy4.domain.dutyHistory.domain.DutyHistory;
 import com.toy4.domain.dutyHistory.dto.ApprovedDutyResponse;
 import com.toy4.domain.dutyHistory.dto.DutyHistoriesResponse;
-import com.toy4.domain.dutyHistory.dto.DutyHistoryDto;
+import com.toy4.domain.dutyHistory.dto.DutyStatusUpdate;
 import com.toy4.domain.dutyHistory.exception.DutyHistoryException;
 import com.toy4.domain.dutyHistory.repository.DutyHistoryRepository;
 import com.toy4.domain.dutyHistory.service.DutyHistoryService;
@@ -22,8 +14,14 @@ import com.toy4.domain.schedule.RequestStatus;
 import com.toy4.global.response.dto.CommonResponse;
 import com.toy4.global.response.service.ResponseService;
 import com.toy4.global.response.type.ErrorCode;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.toy4.global.response.type.SuccessCode.SUCCESS;
 
 @RequiredArgsConstructor
 @Service
@@ -69,14 +67,10 @@ public class DutyHistoryServiceImpl implements DutyHistoryService {
 		return responseService.successList(responses, SUCCESS);
 	}
 
-	@Override
-	public CommonResponse<?> updateStatusDuty(DutyHistoryDto dto) {
+	public void updateDutyStatus(DutyStatusUpdate dto) {
 		DutyHistory dutyHistory = dutyHistoryRepository.findById(dto.getId())
-			.orElseThrow(() -> new DutyHistoryException(ErrorCode.ENTITY_NOT_FOUND));
+			.orElseThrow(() -> new DutyHistoryException(ErrorCode.DUTY_NOT_FOUND));
 
-		dutyHistory.updateStatusDuty(dto);
-		dutyHistoryRepository.save(dutyHistory);
-
-		return responseService.success(dto.getId(), SUCCESS);
+		dutyHistory.updateStatus(dto.getStatus());
 	}
 }

@@ -1,6 +1,6 @@
 package com.toy4.domain.dutyHistory.controller;
 
-import com.toy4.domain.dutyHistory.dto.DutyHistoryRequest;
+import com.toy4.domain.dutyHistory.dto.request.DutyStatusUpdateRequest;
 import com.toy4.domain.dutyHistory.service.DutyHistoryService;
 import com.toy4.global.response.dto.CommonResponse;
 import com.toy4.global.response.service.ResponseService;
@@ -26,7 +26,7 @@ public class DutyHistoryAdminController {
 
 	@PutMapping
 	public ResponseEntity<?> respondDutyRegistrationRequest(
-		@Valid @RequestBody DutyHistoryRequest requestBody) {
+		@Valid @RequestBody DutyStatusUpdateRequest requestBody) {
 
 		dutyHistoryService.updateDutyStatus(requestBody.toDto());
 		return ResponseEntity.ok(responseService.success());

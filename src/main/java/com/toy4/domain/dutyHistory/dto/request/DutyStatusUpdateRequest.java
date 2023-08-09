@@ -1,5 +1,6 @@
-package com.toy4.domain.dutyHistory.dto;
+package com.toy4.domain.dutyHistory.dto.request;
 
+import com.toy4.domain.dutyHistory.dto.DutyStatusUpdate;
 import com.toy4.domain.schedule.RequestStatus;
 import lombok.Getter;
 
@@ -7,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Getter
-public class DutyHistoryRequest {
+public class DutyStatusUpdateRequest {
 
 	@NotNull
 	private Long dutyId;

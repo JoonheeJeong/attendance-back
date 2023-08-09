@@ -16,13 +16,13 @@ public class DutyHistoryAdminController {
 	private final DutyHistoryService dutyHistoryService;
 
 	@GetMapping
-	public ResponseEntity<?> getDayOffs() {
+	public ResponseEntity<?> getDuties() {
 		CommonResponse<?> response = dutyHistoryService.getDutyHistories();
 		return ResponseEntity.ok(response);
 	}
 
 	@PutMapping
-	public ResponseEntity<?> updateStatusDuty(
+	public ResponseEntity<?> updateDutyStatus(
 		@Validated @RequestBody DutyHistoryRequest request) {
 		CommonResponse<?> response = dutyHistoryService.updateStatusDuty(DutyHistoryRequest.to(request));
 		return ResponseEntity.ok(response);

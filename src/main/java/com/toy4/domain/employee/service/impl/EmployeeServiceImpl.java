@@ -89,7 +89,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             employeeProfileImageService.removeIfFileExists(employee.getProfileImagePath());
         }
 
-        if (!profileImageFile.isEmpty()) {
+        if (profileImageFile != null && !profileImageFile.isEmpty()) {
             profileImagePath = employeeProfileImageService.saveFile(profileImageFile);
         }
 

@@ -1,7 +1,7 @@
 package com.toy4.domain.dayOffHistory.controller;
 
 import com.toy4.domain.dayOffHistory.dto.request.DayOffStatusUpdateRequest;
-import com.toy4.domain.dayOffHistory.dto.response.DayOffApproveResponse;
+import com.toy4.domain.dayOffHistory.dto.response.ApprovedDayOffResponse;
 import com.toy4.domain.dayOffHistory.dto.response.DayOffHistoriesResponse;
 import com.toy4.domain.dayOffHistory.service.DayOffHistoryService;
 import com.toy4.global.response.service.ResponseService;
@@ -36,7 +36,7 @@ public class DayOffHistoryAdminController {
 
 	@GetMapping("/employees/{employeeId}/day-offs")
 	public ResponseEntity<?> getApprovedDayOffsOfEmployee(@PathVariable Long employeeId) {
-		List<DayOffApproveResponse> approvedDayOffsOfEmployee =
+		List<ApprovedDayOffResponse> approvedDayOffsOfEmployee =
 				dayOffHistoryService.getApprovedDayOffsOfEmployee(employeeId);
 		return ResponseEntity.ok(responseService.success(approvedDayOffsOfEmployee));
 	}

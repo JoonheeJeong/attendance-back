@@ -2,7 +2,7 @@ package com.toy4.domain.dayOffHistory.service.impl;
 
 import com.toy4.domain.dayOffHistory.domain.DayOffHistory;
 import com.toy4.domain.dayOffHistory.dto.DayOffStatusUpdate;
-import com.toy4.domain.dayOffHistory.dto.response.DayOffApproveResponse;
+import com.toy4.domain.dayOffHistory.dto.response.ApprovedDayOffResponse;
 import com.toy4.domain.dayOffHistory.dto.response.DayOffHistoriesResponse;
 import com.toy4.domain.dayOffHistory.exception.DayOffHistoryException;
 import com.toy4.domain.dayOffHistory.repository.DayOffHistoryRepository;
@@ -28,7 +28,7 @@ public class DayOffHistoryServiceImpl implements DayOffHistoryService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<DayOffApproveResponse> getApprovedDayOffsOfEmployee(Long employeeId) {
+	public List<ApprovedDayOffResponse> getApprovedDayOffsOfEmployee(Long employeeId) {
 		employeeRepository.findById(employeeId)
 			.orElseThrow(() -> new EmployeeException(ErrorCode.ENTITY_NOT_FOUND));
 
@@ -36,7 +36,7 @@ public class DayOffHistoryServiceImpl implements DayOffHistoryService {
 				dayOffHistoryRepository.findByEmployeeIdAndStatus(employeeId, RequestStatus.APPROVED);
 
 		return approvedDayOffsOfEmployee.stream()
-			.map(DayOffApproveResponse::from)
+			.map(ApprovedDayOffResponse::from)
 			.collect(Collectors.toList());
 	}
 

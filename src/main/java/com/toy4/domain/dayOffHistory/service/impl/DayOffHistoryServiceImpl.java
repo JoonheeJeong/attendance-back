@@ -3,7 +3,7 @@ package com.toy4.domain.dayOffHistory.service.impl;
 import com.toy4.domain.dayOffHistory.domain.DayOffHistory;
 import com.toy4.domain.dayOffHistory.dto.DayOffStatusUpdate;
 import com.toy4.domain.dayOffHistory.dto.response.ApprovedDayOffResponse;
-import com.toy4.domain.dayOffHistory.dto.response.DayOffHistoriesResponse;
+import com.toy4.domain.dayOffHistory.dto.response.EmployeeDayOffResponse;
 import com.toy4.domain.dayOffHistory.exception.DayOffHistoryException;
 import com.toy4.domain.dayOffHistory.repository.DayOffHistoryRepository;
 import com.toy4.domain.dayOffHistory.service.DayOffHistoryService;
@@ -42,11 +42,11 @@ public class DayOffHistoryServiceImpl implements DayOffHistoryService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<DayOffHistoriesResponse> getDayOffs() {
+	public List<EmployeeDayOffResponse> getDayOffs() {
 
 		List<DayOffHistory> dayOffHistories = dayOffHistoryRepository.findAll();
 		return dayOffHistories.stream()
-			.map(DayOffHistoriesResponse::from)
+			.map(EmployeeDayOffResponse::from)
 			.collect(Collectors.toList());
 	}
 

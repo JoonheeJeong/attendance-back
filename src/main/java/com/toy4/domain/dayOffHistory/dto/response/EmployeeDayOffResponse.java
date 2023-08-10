@@ -9,7 +9,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class DayOffHistoriesResponse {
+public class EmployeeDayOffResponse {
 	private Long employeeId;
 	private String name;
 	private String department;
@@ -25,9 +25,9 @@ public class DayOffHistoriesResponse {
 	private String reason;
 
 
-	public static DayOffHistoriesResponse from(DayOffHistory dayOffHistory) {
+	public static EmployeeDayOffResponse from(DayOffHistory dayOffHistory) {
 
-		return DayOffHistoriesResponse.builder()
+		return EmployeeDayOffResponse.builder()
 			.employeeId(dayOffHistory.getEmployee().getId())
 			.name(dayOffHistory.getEmployee().getName())
 			.department(dayOffHistory.getEmployee().getDepartment().getType().getDescription())

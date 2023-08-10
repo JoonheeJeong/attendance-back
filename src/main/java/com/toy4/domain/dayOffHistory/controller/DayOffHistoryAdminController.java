@@ -2,7 +2,7 @@ package com.toy4.domain.dayOffHistory.controller;
 
 import com.toy4.domain.dayOffHistory.dto.request.DayOffStatusUpdateRequest;
 import com.toy4.domain.dayOffHistory.dto.response.ApprovedDayOffResponse;
-import com.toy4.domain.dayOffHistory.dto.response.DayOffHistoriesResponse;
+import com.toy4.domain.dayOffHistory.dto.response.EmployeeDayOffResponse;
 import com.toy4.domain.dayOffHistory.service.DayOffHistoryService;
 import com.toy4.global.response.service.ResponseService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class DayOffHistoryAdminController {
 
 	@GetMapping("/day-offs")
 	public ResponseEntity<?> getDayOffs() {
-		List<DayOffHistoriesResponse> dayOffs = dayOffHistoryService.getDayOffs();
+		List<EmployeeDayOffResponse> dayOffs = dayOffHistoryService.getDayOffs();
 		return ResponseEntity.ok(responseService.success(dayOffs));
 	}
 

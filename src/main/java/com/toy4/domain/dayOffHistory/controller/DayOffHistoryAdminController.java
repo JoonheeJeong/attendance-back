@@ -28,9 +28,10 @@ public class DayOffHistoryAdminController {
 
 	@PutMapping("/day-offs")
 	public ResponseEntity<?> respondDayOffRegistrationRequest(
-		@Validated @RequestBody DayOffStatusUpdateRequest request) {
-		CommonResponse<?> response = dayOffHistoryService.updateStatusDayOff(DayOffStatusUpdateRequest.to(request));
-		return ResponseEntity.ok(response);
+		@Validated @RequestBody DayOffStatusUpdateRequest requestBody) {
+
+		dayOffHistoryService.updateDayOffStatus(requestBody.toDto());
+		return ResponseEntity.ok(responseService.success());
 	}
 
 	@GetMapping("/employees/{employeeId}/day-offs")

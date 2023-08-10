@@ -1,7 +1,7 @@
 package com.toy4.domain.dayOffHistory.service.impl;
 
 import com.toy4.domain.dayOffHistory.domain.DayOffHistory;
-import com.toy4.domain.dayOffHistory.dto.DayOffHistoryDto;
+import com.toy4.domain.dayOffHistory.dto.DayOffStatusUpdate;
 import com.toy4.domain.dayOffHistory.dto.response.DayOffApproveResponse;
 import com.toy4.domain.dayOffHistory.dto.response.DayOffHistoriesResponse;
 import com.toy4.domain.dayOffHistory.exception.DayOffHistoryException;
@@ -63,11 +63,11 @@ public class DayOffHistoryServiceImpl implements DayOffHistoryService {
 
 	@Override
 	@Transactional
-	public CommonResponse<?> updateStatusDayOff(DayOffHistoryDto dto) {
+	public void updateDayOffStatus(DayOffStatusUpdate dto) {
 		DayOffHistory dayOffHistory = dayOffHistoryRepository.findById(dto.getId())
 			.orElseThrow(() -> new DayOffHistoryException(ErrorCode.ENTITY_NOT_FOUND));
 
-		dayOffHistory.updateStatusDayOff(dto);
+		dayOffHistory.updateStatus(dto.getStatus());
 		dayOffHistoryRepository.save(dayOffHistory);
 
 		if (dayOffHistory.getStatus() == RequestStatus.CANCELLED) {
@@ -81,7 +81,5 @@ public class DayOffHistoryServiceImpl implements DayOffHistoryService {
 			employee.updateDayOffRemains(remainingDaysOff);
 			employeeRepository.save(employee);
 		}
-
-		return responseService.success(dayOffHistory.getId(), SUCCESS);
 	}
 }

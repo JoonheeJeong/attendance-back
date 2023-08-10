@@ -1,13 +1,14 @@
 package com.toy4.domain.schedule.dto.response;
 
 import com.toy4.domain.dutyHistory.domain.DutyHistory;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
-@AllArgsConstructor
 public class ScheduleDutyResponse {
 
     private final Long dutyId;

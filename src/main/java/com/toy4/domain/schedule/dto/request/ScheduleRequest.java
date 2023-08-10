@@ -1,4 +1,4 @@
-package com.toy4.domain.schedule;
+package com.toy4.domain.schedule.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-class ScheduleRequest {
+public class ScheduleRequest {
 
     @NotNull
     private Long employeeId;

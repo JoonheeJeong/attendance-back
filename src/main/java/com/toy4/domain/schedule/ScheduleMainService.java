@@ -1,12 +1,13 @@
 package com.toy4.domain.schedule;
 
-import com.toy4.domain.dayOffHistory.dto.response.ScheduleDayOffResponse;
 import com.toy4.domain.dayOffHistory.repository.DayOffHistoryRepository;
-import com.toy4.domain.dutyHistory.dto.response.ScheduleDutyResponse;
+import com.toy4.domain.schedule.dto.response.ScheduleDutyResponse;
 import com.toy4.domain.dutyHistory.repository.DutyHistoryRepository;
 import com.toy4.domain.employee.domain.Employee;
 import com.toy4.domain.employee.exception.EmployeeException;
 import com.toy4.domain.employee.repository.EmployeeRepository;
+import com.toy4.domain.schedule.dto.response.ScheduleDayOffResponse;
+import com.toy4.domain.schedule.dto.response.ScheduleResponse;
 import com.toy4.global.response.type.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

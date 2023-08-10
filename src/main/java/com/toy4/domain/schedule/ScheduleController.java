@@ -1,5 +1,7 @@
 package com.toy4.domain.schedule;
 
+import com.toy4.domain.schedule.dto.request.ScheduleRequest;
+import com.toy4.domain.schedule.dto.response.ScheduleResponse;
 import com.toy4.global.response.dto.CommonResponse;
 import com.toy4.global.response.service.ResponseService;
 import com.toy4.global.response.type.SuccessCode;

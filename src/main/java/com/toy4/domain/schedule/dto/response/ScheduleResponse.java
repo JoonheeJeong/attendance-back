@@ -1,7 +1,5 @@
-package com.toy4.domain.schedule;
+package com.toy4.domain.schedule.dto.response;
 
-import com.toy4.domain.dayOffHistory.dto.response.ScheduleDayOffResponse;
-import com.toy4.domain.dutyHistory.dto.response.ScheduleDutyResponse;
 import lombok.Builder;
 import lombok.Getter;
 

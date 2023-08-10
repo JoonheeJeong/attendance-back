@@ -1,4 +1,4 @@
-package com.toy4.domain.dutyHistory.dto.response;
+package com.toy4.domain.schedule.dto.response;
 
 import com.toy4.domain.dutyHistory.domain.DutyHistory;
 import lombok.AllArgsConstructor;

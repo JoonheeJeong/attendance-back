@@ -29,6 +29,7 @@ public class DayOffApproveResponse {
 			.requestStatus(dayOffHistory.getStatus().getDescription())
 			.startDate(dayOffHistory.getStartDate().format(formatter))
 			.endDate(dayOffHistory.getEndDate().format(formatter))
+			.reason(dayOffHistory.getReason())
 			.build();
 	}
 }

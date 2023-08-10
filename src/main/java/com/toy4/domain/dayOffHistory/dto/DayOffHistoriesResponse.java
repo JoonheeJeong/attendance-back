@@ -40,6 +40,7 @@ public class DayOffHistoriesResponse {
 			.startDate(dayOffHistory.getStartDate().format(formatter))
 			.endDate(dayOffHistory.getEndDate().format(formatter))
 			.totalAmount(dayOffHistory.getTotalAmount())
+			.reason(dayOffHistory.getReason())
 			.build();
 	}
 }

@@ -1,6 +1,6 @@
 package com.toy4.domain.dayOffHistory.controller;
 
-import com.toy4.domain.dayOffHistory.dto.DayOffHistoryRequest;
+import com.toy4.domain.dayOffHistory.dto.request.DayOffHistoryRequest;
 import com.toy4.domain.dayOffHistory.service.DayOffHistoryService;
 import com.toy4.global.response.dto.CommonResponse;
 import lombok.RequiredArgsConstructor;

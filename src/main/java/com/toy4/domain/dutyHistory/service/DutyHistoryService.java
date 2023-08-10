@@ -1,6 +1,6 @@
 package com.toy4.domain.dutyHistory.service;
 
-import com.toy4.domain.dutyHistory.dto.ApprovedDutyResponse;
+import com.toy4.domain.dutyHistory.dto.response.ApprovedDutyResponse;
 import com.toy4.domain.dutyHistory.dto.DutyStatusUpdate;
 import com.toy4.global.response.dto.CommonResponse;
 

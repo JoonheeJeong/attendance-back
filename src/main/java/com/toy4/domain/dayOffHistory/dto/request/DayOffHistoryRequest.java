@@ -1,8 +1,9 @@
-package com.toy4.domain.dayOffHistory.dto;
+package com.toy4.domain.dayOffHistory.dto.request;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.toy4.domain.dayOffHistory.dto.DayOffHistoryDto;
 import com.toy4.domain.schedule.RequestStatus;
 
 import lombok.AccessLevel;

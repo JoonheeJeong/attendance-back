@@ -1,8 +1,8 @@
 package com.toy4.domain.dutyHistory.service.impl;
 
 import com.toy4.domain.dutyHistory.domain.DutyHistory;
-import com.toy4.domain.dutyHistory.dto.ApprovedDutyResponse;
-import com.toy4.domain.dutyHistory.dto.DutyHistoriesResponse;
+import com.toy4.domain.dutyHistory.dto.response.ApprovedDutyResponse;
+import com.toy4.domain.dutyHistory.dto.response.DutyHistoriesResponse;
 import com.toy4.domain.dutyHistory.dto.DutyStatusUpdate;
 import com.toy4.domain.dutyHistory.exception.DutyHistoryException;
 import com.toy4.domain.dutyHistory.repository.DutyHistoryRepository;

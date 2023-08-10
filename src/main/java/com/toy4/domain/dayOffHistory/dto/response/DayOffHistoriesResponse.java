@@ -1,4 +1,4 @@
-package com.toy4.domain.dayOffHistory.dto;
+package com.toy4.domain.dayOffHistory.dto.response;
 
 import static com.toy4.global.date.DateFormatter.*;
 

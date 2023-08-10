@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.toy4.domain.dayOffHistory.domain.DayOffHistory;
-import com.toy4.domain.dayOffHistory.dto.DayOffApproveResponse;
-import com.toy4.domain.dayOffHistory.dto.DayOffHistoriesResponse;
+import com.toy4.domain.dayOffHistory.dto.response.DayOffApproveResponse;
+import com.toy4.domain.dayOffHistory.dto.response.DayOffHistoriesResponse;
 import com.toy4.domain.dayOffHistory.dto.DayOffHistoryDto;
 import com.toy4.domain.dayOffHistory.repository.DayOffHistoryRepository;
 import com.toy4.domain.dayOffHistory.service.DayOffHistoryService;

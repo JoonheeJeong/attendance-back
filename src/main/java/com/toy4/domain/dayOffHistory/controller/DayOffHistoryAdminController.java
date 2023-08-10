@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/api/admin/day-offs")
+@RequestMapping("/api/admin")
 @RequiredArgsConstructor
 @RestController
 public class DayOffHistoryAdminController {
@@ -20,18 +20,22 @@ public class DayOffHistoryAdminController {
 	private final DayOffHistoryService dayOffHistoryService;
 	private final ResponseService responseService;
 
-	@GetMapping
+	@GetMapping("/day-offs")
 	public ResponseEntity<?> getDayOffs() {
 		List<DayOffHistoriesResponse> dayOffs = dayOffHistoryService.getDayOffs();
 		return ResponseEntity.ok(responseService.success(dayOffs));
 	}
 
-	@PutMapping
+	@PutMapping("/day-offs")
 	public ResponseEntity<?> updateStatusDayOff(
 		@Validated @RequestBody DayOffHistoryRequest request) {
 		CommonResponse<?> response = dayOffHistoryService.updateStatusDayOff(DayOffHistoryRequest.to(request));
 		return ResponseEntity.ok(response);
 	}
 
-
+	@GetMapping("/employees/{employeeId}/day-offs")
+	public ResponseEntity<?> getEmployeeApprovedDayOff(@PathVariable Long employeeId) {
+		CommonResponse<?> response = dayOffHistoryService.getEmployeeApprovedDayOff(employeeId);
+		return ResponseEntity.ok(response);
+	}
 }

@@ -1,17 +1,15 @@
 package com.toy4.domain.dutyHistory.service.impl;
 
 import com.toy4.domain.dutyHistory.domain.DutyHistory;
+import com.toy4.domain.dutyHistory.dto.DutyStatusUpdate;
 import com.toy4.domain.dutyHistory.dto.response.ApprovedDutyResponse;
 import com.toy4.domain.dutyHistory.dto.response.DutyHistoriesResponse;
-import com.toy4.domain.dutyHistory.dto.DutyStatusUpdate;
 import com.toy4.domain.dutyHistory.exception.DutyHistoryException;
 import com.toy4.domain.dutyHistory.repository.DutyHistoryRepository;
 import com.toy4.domain.dutyHistory.service.DutyHistoryService;
 import com.toy4.domain.employee.exception.EmployeeException;
 import com.toy4.domain.employee.repository.EmployeeRepository;
 import com.toy4.domain.schedule.RequestStatus;
-import com.toy4.global.response.dto.CommonResponse;
-import com.toy4.global.response.service.ResponseService;
 import com.toy4.global.response.type.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,15 +18,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.toy4.global.response.type.SuccessCode.SUCCESS;
-
 @RequiredArgsConstructor
 @Service
 public class DutyHistoryServiceImpl implements DutyHistoryService {
 
 	private final EmployeeRepository employeeRepository;
 	private final DutyHistoryRepository dutyHistoryRepository;
-	private final ResponseService responseService;
 
 	@Override
 	@Transactional
@@ -46,18 +41,12 @@ public class DutyHistoryServiceImpl implements DutyHistoryService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public CommonResponse<?> getDutyHistories() {
+	public List<DutyHistoriesResponse> getDutyHistories() {
 		List<DutyHistory> dutyHistories = dutyHistoryRepository.findAll();
 
-		if (dutyHistories.isEmpty()) {
-			return responseService.failure(ErrorCode.DUTY_HISTORIES_NOT_FOUND);
-		}
-
-		List<DutyHistoriesResponse> responses = dutyHistories.stream()
+		return dutyHistories.stream()
 			.map(DutyHistoriesResponse::from)
 			.collect(Collectors.toList());
-
-		return responseService.successList(responses, SUCCESS);
 	}
 
 	@Override

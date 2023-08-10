@@ -1,9 +1,9 @@
 package com.toy4.domain.dutyHistory.controller;
 
-import com.toy4.domain.dutyHistory.dto.response.ApprovedDutyResponse;
 import com.toy4.domain.dutyHistory.dto.request.DutyStatusUpdateRequest;
+import com.toy4.domain.dutyHistory.dto.response.ApprovedDutyResponse;
+import com.toy4.domain.dutyHistory.dto.response.DutyHistoriesResponse;
 import com.toy4.domain.dutyHistory.service.DutyHistoryService;
-import com.toy4.global.response.dto.CommonResponse;
 import com.toy4.global.response.service.ResponseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +22,8 @@ public class DutyHistoryAdminController {
 
 	@GetMapping("/duties")
 	public ResponseEntity<?> getDuties() {
-		CommonResponse<?> response = dutyHistoryService.getDutyHistories();
-		return ResponseEntity.ok(response);
+		List<DutyHistoriesResponse> dutyResponses = dutyHistoryService.getDutyHistories();
+		return ResponseEntity.ok(responseService.success(dutyResponses));
 	}
 
 	@PutMapping("/duties")

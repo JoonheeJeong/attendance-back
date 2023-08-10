@@ -2,7 +2,7 @@ package com.toy4.domain.dutyHistory.controller;
 
 import com.toy4.domain.dutyHistory.dto.request.DutyStatusUpdateRequest;
 import com.toy4.domain.dutyHistory.dto.response.ApprovedDutyResponse;
-import com.toy4.domain.dutyHistory.dto.response.DutyHistoriesResponse;
+import com.toy4.domain.dutyHistory.dto.response.EmployeeDutyResponse;
 import com.toy4.domain.dutyHistory.service.DutyHistoryService;
 import com.toy4.global.response.service.ResponseService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class DutyHistoryAdminController {
 
 	@GetMapping("/duties")
 	public ResponseEntity<?> getDuties() {
-		List<DutyHistoriesResponse> dutyResponses = dutyHistoryService.getDutyHistories();
+		List<EmployeeDutyResponse> dutyResponses = dutyHistoryService.getDutyHistories();
 		return ResponseEntity.ok(responseService.success(dutyResponses));
 	}
 

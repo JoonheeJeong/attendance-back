@@ -3,7 +3,7 @@ package com.toy4.domain.dutyHistory.service.impl;
 import com.toy4.domain.dutyHistory.domain.DutyHistory;
 import com.toy4.domain.dutyHistory.dto.DutyStatusUpdate;
 import com.toy4.domain.dutyHistory.dto.response.ApprovedDutyResponse;
-import com.toy4.domain.dutyHistory.dto.response.DutyHistoriesResponse;
+import com.toy4.domain.dutyHistory.dto.response.EmployeeDutyResponse;
 import com.toy4.domain.dutyHistory.exception.DutyHistoryException;
 import com.toy4.domain.dutyHistory.repository.DutyHistoryRepository;
 import com.toy4.domain.dutyHistory.service.DutyHistoryService;
@@ -41,11 +41,11 @@ public class DutyHistoryServiceImpl implements DutyHistoryService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<DutyHistoriesResponse> getDutyHistories() {
+	public List<EmployeeDutyResponse> getDutyHistories() {
 		List<DutyHistory> dutyHistories = dutyHistoryRepository.findAll();
 
 		return dutyHistories.stream()
-			.map(DutyHistoriesResponse::from)
+			.map(EmployeeDutyResponse::from)
 			.collect(Collectors.toList());
 	}
 

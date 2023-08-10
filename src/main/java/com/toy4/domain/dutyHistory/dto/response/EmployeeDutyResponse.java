@@ -8,7 +8,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class DutyHistoriesResponse {
+public class EmployeeDutyResponse {
 	private Long employeeId;
 	private String name;
 	private String department;
@@ -20,9 +20,9 @@ public class DutyHistoriesResponse {
 	private String date;
 	private String status;
 
-	public static DutyHistoriesResponse from (DutyHistory dutyHistory) {
+	public static EmployeeDutyResponse from (DutyHistory dutyHistory) {
 
-		return DutyHistoriesResponse.builder()
+		return EmployeeDutyResponse.builder()
 			.employeeId(dutyHistory.getEmployee().getId())
 			.name(dutyHistory.getEmployee().getName())
 			.department(dutyHistory.getEmployee().getDepartment().getType().getDescription())

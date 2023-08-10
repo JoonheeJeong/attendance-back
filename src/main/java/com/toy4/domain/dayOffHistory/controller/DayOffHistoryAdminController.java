@@ -1,6 +1,6 @@
 package com.toy4.domain.dayOffHistory.controller;
 
-import com.toy4.domain.dayOffHistory.dto.request.DayOffHistoryRequest;
+import com.toy4.domain.dayOffHistory.dto.request.DayOffStatusUpdateRequest;
 import com.toy4.domain.dayOffHistory.dto.response.DayOffHistoriesResponse;
 import com.toy4.domain.dayOffHistory.service.DayOffHistoryService;
 import com.toy4.global.response.dto.CommonResponse;
@@ -27,9 +27,9 @@ public class DayOffHistoryAdminController {
 	}
 
 	@PutMapping("/day-offs")
-	public ResponseEntity<?> updateStatusDayOff(
-		@Validated @RequestBody DayOffHistoryRequest request) {
-		CommonResponse<?> response = dayOffHistoryService.updateStatusDayOff(DayOffHistoryRequest.to(request));
+	public ResponseEntity<?> respondDayOffRegistrationRequest(
+		@Validated @RequestBody DayOffStatusUpdateRequest request) {
+		CommonResponse<?> response = dayOffHistoryService.updateStatusDayOff(DayOffStatusUpdateRequest.to(request));
 		return ResponseEntity.ok(response);
 	}
 

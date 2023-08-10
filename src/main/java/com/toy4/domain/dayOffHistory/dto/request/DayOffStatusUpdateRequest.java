@@ -16,14 +16,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 @Builder
-public class DayOffHistoryRequest {
+public class DayOffStatusUpdateRequest {
 
 	@NotNull
 	private Long dayOffId;
 	@NotBlank(message = "상태가 누락되었습니다.")
 	private String status;
 
-	public static DayOffHistoryDto to(DayOffHistoryRequest request) {
+	public static DayOffHistoryDto to(DayOffStatusUpdateRequest request) {
 		return DayOffHistoryDto.builder()
 			.id(request.getDayOffId())
 			.status(RequestStatus.getByDescription(request.getStatus()))

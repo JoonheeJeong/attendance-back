@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class FindDayOffHistoryResponse {
+public class ScheduleDayOffResponse {
 
     private final Long dayOffId;
     private final String type;
@@ -18,8 +18,8 @@ public class FindDayOffHistoryResponse {
     private final Float amount;
     private final String reason;
 
-    public static FindDayOffHistoryResponse from(DayOffHistory entity) {
-        return FindDayOffHistoryResponse.builder()
+    public static ScheduleDayOffResponse from(DayOffHistory entity) {
+        return ScheduleDayOffResponse.builder()
                 .dayOffId(entity.getId())
                 .type(entity.getDayOff().getType().getDescription())
                 .status(entity.getStatus().getDescription())

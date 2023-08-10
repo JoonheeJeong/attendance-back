@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class FindDutyHistoryResponse {
+public class ScheduleDutyResponse {
 
     private final Long dutyId;
     private final String type = "당직";
@@ -16,8 +16,8 @@ public class FindDutyHistoryResponse {
     private final String date;
     private final String reason;
 
-    public static FindDutyHistoryResponse from(DutyHistory entity) {
-        return FindDutyHistoryResponse.builder()
+    public static ScheduleDutyResponse from(DutyHistory entity) {
+        return ScheduleDutyResponse.builder()
                 .dutyId(entity.getId())
                 .status(entity.getStatus().getDescription())
                 .date(entity.getDate().toString())

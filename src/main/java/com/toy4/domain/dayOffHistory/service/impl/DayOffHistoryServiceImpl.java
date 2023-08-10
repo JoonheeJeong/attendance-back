@@ -1,20 +1,12 @@
 package com.toy4.domain.dayOffHistory.service.impl;
 
-import static com.toy4.global.response.type.SuccessCode.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.toy4.domain.dayOffHistory.domain.DayOffHistory;
+import com.toy4.domain.dayOffHistory.dto.DayOffHistoryDto;
 import com.toy4.domain.dayOffHistory.dto.response.DayOffApproveResponse;
 import com.toy4.domain.dayOffHistory.dto.response.DayOffHistoriesResponse;
-import com.toy4.domain.dayOffHistory.dto.DayOffHistoryDto;
+import com.toy4.domain.dayOffHistory.exception.DayOffHistoryException;
 import com.toy4.domain.dayOffHistory.repository.DayOffHistoryRepository;
 import com.toy4.domain.dayOffHistory.service.DayOffHistoryService;
-import com.toy4.domain.dayOffHistory.exception.DayOffHistoryException;
 import com.toy4.domain.employee.domain.Employee;
 import com.toy4.domain.employee.exception.EmployeeException;
 import com.toy4.domain.employee.repository.EmployeeRepository;
@@ -22,8 +14,14 @@ import com.toy4.domain.schedule.RequestStatus;
 import com.toy4.global.response.dto.CommonResponse;
 import com.toy4.global.response.service.ResponseService;
 import com.toy4.global.response.type.ErrorCode;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.toy4.global.response.type.SuccessCode.SUCCESS;
 
 @RequiredArgsConstructor
 @Service
@@ -55,19 +53,12 @@ public class DayOffHistoryServiceImpl implements DayOffHistoryService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public CommonResponse<?> getDayOffs() {
+	public List<DayOffHistoriesResponse> getDayOffs() {
 
 		List<DayOffHistory> dayOffHistories = dayOffHistoryRepository.findAll();
-
-		if (dayOffHistories.isEmpty()) {
-			return responseService.failure(ErrorCode.DAY_OFF_HISTORIES_NOT_FOUND);
-		}
-
-		List<DayOffHistoriesResponse> responses = dayOffHistories.stream()
+		return dayOffHistories.stream()
 			.map(DayOffHistoriesResponse::from)
 			.collect(Collectors.toList());
-
-		return responseService.successList(responses, SUCCESS);
 	}
 
 	@Override

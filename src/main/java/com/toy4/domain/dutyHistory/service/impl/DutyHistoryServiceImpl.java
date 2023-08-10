@@ -7,7 +7,6 @@ import com.toy4.domain.dutyHistory.dto.DutyStatusUpdate;
 import com.toy4.domain.dutyHistory.exception.DutyHistoryException;
 import com.toy4.domain.dutyHistory.repository.DutyHistoryRepository;
 import com.toy4.domain.dutyHistory.service.DutyHistoryService;
-import com.toy4.domain.employee.domain.Employee;
 import com.toy4.domain.employee.exception.EmployeeException;
 import com.toy4.domain.employee.repository.EmployeeRepository;
 import com.toy4.domain.schedule.RequestStatus;
@@ -33,22 +32,16 @@ public class DutyHistoryServiceImpl implements DutyHistoryService {
 
 	@Override
 	@Transactional
-	public CommonResponse<?> getEmployeeApprovedDuty(Long employeeId) {
-		Employee employee = employeeRepository.findById(employeeId)
+	public List<ApprovedDutyResponse> getApprovedDuties(Long employeeId) {
+		employeeRepository.findById(employeeId)
 			.orElseThrow(() -> new EmployeeException(ErrorCode.ENTITY_NOT_FOUND));
 
-		List<DutyHistory> approveDuties = dutyHistoryRepository.findByEmployeeIdAndStatus(employee.getId(),
-			RequestStatus.APPROVED);
+		List<DutyHistory> approvedDuties =
+				dutyHistoryRepository.findByEmployeeIdAndStatus(employeeId, RequestStatus.APPROVED);
 
-		if (approveDuties.isEmpty()) {
-			return responseService.failure(ErrorCode.EMPLOYEE_APPROVED_DUTY_NOT_FOUND);
-		}
-
-		List<ApprovedDutyResponse> responses = approveDuties.stream()
+		return approvedDuties.stream()
 			.map(ApprovedDutyResponse::from)
 			.collect(Collectors.toList());
-
-		return responseService.successList(responses, SUCCESS);
 	}
 
 	@Override

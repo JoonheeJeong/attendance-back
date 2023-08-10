@@ -1,9 +1,9 @@
 package com.toy4.domain.dayOffHistory.controller;
 
 import com.toy4.domain.dayOffHistory.dto.request.DayOffStatusUpdateRequest;
+import com.toy4.domain.dayOffHistory.dto.response.DayOffApproveResponse;
 import com.toy4.domain.dayOffHistory.dto.response.DayOffHistoriesResponse;
 import com.toy4.domain.dayOffHistory.service.DayOffHistoryService;
-import com.toy4.global.response.dto.CommonResponse;
 import com.toy4.global.response.service.ResponseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -35,8 +35,9 @@ public class DayOffHistoryAdminController {
 	}
 
 	@GetMapping("/employees/{employeeId}/day-offs")
-	public ResponseEntity<?> getEmployeeApprovedDayOff(@PathVariable Long employeeId) {
-		CommonResponse<?> response = dayOffHistoryService.getEmployeeApprovedDayOff(employeeId);
-		return ResponseEntity.ok(response);
+	public ResponseEntity<?> getApprovedDayOffsOfEmployee(@PathVariable Long employeeId) {
+		List<DayOffApproveResponse> approvedDayOffsOfEmployee =
+				dayOffHistoryService.getApprovedDayOffsOfEmployee(employeeId);
+		return ResponseEntity.ok(responseService.success(approvedDayOffsOfEmployee));
 	}
 }

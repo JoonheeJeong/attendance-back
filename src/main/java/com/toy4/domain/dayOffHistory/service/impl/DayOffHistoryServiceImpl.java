@@ -11,8 +11,6 @@ import com.toy4.domain.employee.domain.Employee;
 import com.toy4.domain.employee.exception.EmployeeException;
 import com.toy4.domain.employee.repository.EmployeeRepository;
 import com.toy4.domain.schedule.RequestStatus;
-import com.toy4.global.response.dto.CommonResponse;
-import com.toy4.global.response.service.ResponseService;
 import com.toy4.global.response.type.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,34 +19,25 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.toy4.global.response.type.SuccessCode.SUCCESS;
-
 @RequiredArgsConstructor
 @Service
 public class DayOffHistoryServiceImpl implements DayOffHistoryService {
 
 	private final EmployeeRepository employeeRepository;
 	private final DayOffHistoryRepository dayOffHistoryRepository;
-	private final ResponseService responseService;
 
 	@Override
 	@Transactional(readOnly = true)
-	public CommonResponse<?> getEmployeeApprovedDayOff(Long employeeId) {
-		Employee employee = employeeRepository.findById(employeeId)
+	public List<DayOffApproveResponse> getApprovedDayOffsOfEmployee(Long employeeId) {
+		employeeRepository.findById(employeeId)
 			.orElseThrow(() -> new EmployeeException(ErrorCode.ENTITY_NOT_FOUND));
 
-		List<DayOffHistory> approveDayOffs = dayOffHistoryRepository.findByEmployeeIdAndStatus(employee.getId(),
-			RequestStatus.APPROVED);
+		List<DayOffHistory> approvedDayOffsOfEmployee =
+				dayOffHistoryRepository.findByEmployeeIdAndStatus(employeeId, RequestStatus.APPROVED);
 
-		if (approveDayOffs.isEmpty()) {
-			return responseService.failure(ErrorCode.EMPLOYEE_APPROVED_DAY_OFF_NOT_FOUND);
-		}
-
-		List<DayOffApproveResponse> responses = approveDayOffs.stream()
+		return approvedDayOffsOfEmployee.stream()
 			.map(DayOffApproveResponse::from)
 			.collect(Collectors.toList());
-
-		return responseService.successList(responses, SUCCESS);
 	}
 
 	@Override

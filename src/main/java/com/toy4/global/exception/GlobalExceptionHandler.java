@@ -11,6 +11,7 @@ import com.toy4.domain.dayOffByPosition.exception.DayOffByPositionException;
 import com.toy4.domain.department.exception.DepartmentException;
 import com.toy4.domain.employee.exception.EmployeeException;
 import com.toy4.domain.position.exception.PositionException;
+import com.toy4.domain.schedule.ScheduleException;
 import com.toy4.domain.status.exception.StatusException;
 import com.toy4.global.response.service.ResponseService;
 import lombok.RequiredArgsConstructor;
@@ -58,6 +59,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DayOffByPositionException.class)
     public ResponseEntity<?> handleDayOffByPositionException(DayOffByPositionException e) {
+        log.error("{} is occurred. {}", e.getErrorCode(), e.getErrorMessage());
+        return ResponseEntity.status(e.getHttpStatus()).body(responseService.failure(e.getErrorCode()));
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<?> handleScheduleException(ScheduleException e) {
         log.error("{} is occurred. {}", e.getErrorCode(), e.getErrorMessage());
         return ResponseEntity.status(e.getHttpStatus()).body(responseService.failure(e.getErrorCode()));
     }

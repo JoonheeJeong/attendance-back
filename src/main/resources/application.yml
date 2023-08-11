@@ -9,9 +9,12 @@ file:
       linux: /home/ubuntu/attendance/images/
 
 
-logging.level.org.hibernate:
-  SQL: DEBUG
-  type.descriptor.sql.BasicBinder: TRACE
+logging.level:
+  root: info
+  org.hibernate:
+    SQL: info
+    type.descriptor.sql.BasicBinder: info
+
 
 spring:
   servlet:

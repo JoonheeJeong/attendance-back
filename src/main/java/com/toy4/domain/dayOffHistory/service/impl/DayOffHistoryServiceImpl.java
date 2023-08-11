@@ -59,7 +59,7 @@ public class DayOffHistoryServiceImpl implements DayOffHistoryService {
 		dayOffHistory.updateStatus(dto.getStatus());
 		dayOffHistoryRepository.save(dayOffHistory);
 
-		if (dayOffHistory.getStatus() == RequestStatus.CANCELLED) {
+		if (dayOffHistory.getStatus() == RequestStatus.REJECTED) {
 
 			float totalAmount = dayOffHistory.getTotalAmount();
 

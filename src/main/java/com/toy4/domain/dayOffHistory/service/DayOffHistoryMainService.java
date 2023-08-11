@@ -33,6 +33,7 @@ public class DayOffHistoryMainService {
     @Transactional
     public void registerDayOff(DayOffRegistration dto) {
         // 검증 및 의존성 추출
+        validateIfNotPastDate(dto.getStartDate());
         float amount = calculateAmount(dto.getStartDate(), dto.getEndDate(), dto.getType());
         Employee employee = findEmployee(dto.getEmployeeId());
         float newDayOffRemains = employee.getDayOffRemains() - amount;
@@ -69,8 +70,16 @@ public class DayOffHistoryMainService {
         dayOffHistory.updateStatus(RequestStatus.CANCELLED);
     }
 
+    private void validateIfNotPastDate(LocalDate startDate) {
+        int days = LocalDate.now().until(startDate).getDays();
+        if (days < 0) {
+            throw new DayOffHistoryException(ErrorCode.PAST_DATE);
+        }
+    }
+
     @Transactional
     public void updateDayOffRegistrationRequest(Long dayOffHistoryId, DayOffModification dto) {
+        validateIfNotPastDate(dto.getStartDate());
         float updatedAmount = calculateAmount(dto.getStartDate(), dto.getEndDate(), dto.getType());
         DayOffHistory dayOffHistory = findDayOffHistory(dayOffHistoryId);
         validateStatus(dayOffHistory.getStatus());

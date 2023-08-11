@@ -27,6 +27,7 @@ public class DutyHistoryMainService {
 
     @Transactional
     public void registerDuty(DutyRegistration dto) {
+        validateIfNotPastDate(dto.getDate());
         Employee employee = findEmployee(dto.getEmployeeId());
         validateDate(dto.getEmployeeId(), dto.getDate());
 
@@ -49,12 +50,20 @@ public class DutyHistoryMainService {
 
     @Transactional
     public void updateDutyRegistrationRequest(Long dutyHistoryId, DutyModification dto) {
+        validateIfNotPastDate(dto.getDate());
         DutyHistory dutyHistory = findDutyHistory(dutyHistoryId);
         validateStatus(dutyHistory.getStatus());
         validateIfMatchedEmployee(dutyHistory.getEmployee().getId(), dto.getEmployeeId());
         validateDate(dto.getEmployeeId(), dto.getDate());
 
         dutyHistory.updateDate(dto.getDate());
+    }
+
+    private void validateIfNotPastDate(LocalDate date) {
+        int days = LocalDate.now().until(date).getDays();
+        if (days < 0) {
+            throw new DutyHistoryException(ErrorCode.PAST_DATE);
+        }
     }
 
     private DutyHistory findDutyHistory(Long dutyHistoryId) {

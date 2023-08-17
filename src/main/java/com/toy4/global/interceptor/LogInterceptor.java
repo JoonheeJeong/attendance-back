@@ -5,7 +5,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.UUID;
 
 @Slf4j
 public class LogInterceptor implements HandlerInterceptor {
@@ -15,9 +14,7 @@ public class LogInterceptor implements HandlerInterceptor {
         String scheme = request.getScheme();
         String method = request.getMethod();
         String requestURI = request.getRequestURI();
-        String logId = UUID.randomUUID().toString();
-        request.setAttribute("logId", logId);
-        log.info("[STT_{}] {} {} {}", logId, scheme, method, requestURI);
+        log.info("[START] {} {} {}", scheme, method, requestURI);
         return true;
     }
 
@@ -26,7 +23,6 @@ public class LogInterceptor implements HandlerInterceptor {
         String scheme = request.getScheme();
         String method = request.getMethod();
         String requestURI = request.getRequestURI();
-        String logId = (String) request.getAttribute("logId");
-        log.info("[END_{}] {} {} {}", logId, scheme, method, requestURI);
+        log.info("[  END] {} {} {}", scheme, method, requestURI);
     }
 }

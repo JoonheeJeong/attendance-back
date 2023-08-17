@@ -2,6 +2,8 @@ package com.toy4.domain.dayOffHistory.repository.info;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+
+import com.toy4.domain.employee.type.EmployeeRole;
 import org.springframework.stereotype.Repository;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
@@ -50,6 +52,7 @@ public class DayOffHistoryCustomRepositoryImpl implements DayOffHistoryCustomRep
 				employee.id.eq(dayOffHistory.employee.id)
 					.and(dayOffHistory.status.in(RequestStatus.REQUESTED, RequestStatus.APPROVED))
 			)
+			.where(employee.role.eq(EmployeeRole.USER))
 			.groupBy(employee.id, employee.name, employee.dayOffRemains)
 			.fetch();
 	}

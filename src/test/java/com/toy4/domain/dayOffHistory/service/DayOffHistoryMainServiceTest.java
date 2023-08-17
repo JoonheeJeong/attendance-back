@@ -58,8 +58,8 @@ class DayOffHistoryMainServiceTest {
     @DisplayName("[예외] 종료 날짜가 시작 날짜보다 빠른 경우")
     @Test
     void whenNegativeDaysDifference_thenThrowDayOffExceptionWith_INVERTED_DAY_OFF_RANGE() {
-        when(mockDto.getStartDate()).thenReturn(LocalDate.of(2023, 7, 23));
-        when(mockDto.getEndDate()).thenReturn(LocalDate.of(2023, 7, 22));
+        when(mockDto.getStartDate()).thenReturn(LocalDate.now().plusDays(2));
+        when(mockDto.getEndDate()).thenReturn(LocalDate.now().plusDays(1));
 
         Arrays.stream(DayOffType.values())
                 .forEach(type -> assertThrowWithErrorCode(type, ErrorCode.INVERTED_DAY_OFF_RANGE));
@@ -68,8 +68,8 @@ class DayOffHistoryMainServiceTest {
     @DisplayName("[예외] 시작과 끝 날짜가 다른 반차")
     @Test
     void whenHalfDayOffWithRangedStartEnd_thenThrowDayOffExceptionWith_RANGED_HALF_DAY_OFF() {
-        when(mockDto.getStartDate()).thenReturn(LocalDate.of(2023, 7, 23));
-        when(mockDto.getEndDate()).thenReturn(LocalDate.of(2023, 7, 24));
+        when(mockDto.getStartDate()).thenReturn(LocalDate.now().plusDays(1));
+        when(mockDto.getEndDate()).thenReturn(LocalDate.now().plusDays(2));
 
         Arrays.stream(DayOffType.values())
                 .filter(DayOffType::isHalfDayOff)
@@ -79,8 +79,8 @@ class DayOffHistoryMainServiceTest {
     @DisplayName("[예외] 직원이 없는 경우")
     @Test
     void whenNotFoundEmployee_thenThrowDayOffExceptionWith_EMPLOYEE_NOT_FOUND() {
-        when(mockDto.getStartDate()).thenReturn(LocalDate.of(2023, 7, 23));
-        when(mockDto.getEndDate()).thenReturn(LocalDate.of(2023, 7, 23));
+        when(mockDto.getStartDate()).thenReturn(LocalDate.now());
+        when(mockDto.getEndDate()).thenReturn(LocalDate.now());
         when(mockDto.getEmployeeId()).thenReturn(10000L);
 
         Arrays.stream(DayOffType.values())
@@ -90,8 +90,8 @@ class DayOffHistoryMainServiceTest {
     @DisplayName("[예외] 잔여 연차수 보다 연차 요청이 큰 경우")
     @Test
     void whenNotFoundEmployee_thenThrowDayOffExceptionWith_DAY_OFF_REMAINS_OVER() {
-        when(mockDto.getStartDate()).thenReturn(LocalDate.of(2023, 7, 1));
-        when(mockDto.getEndDate()).thenReturn(LocalDate.of(2023, 7, 31));
+        when(mockDto.getStartDate()).thenReturn(LocalDate.now());
+        when(mockDto.getEndDate()).thenReturn(LocalDate.now().plusDays(1000L));
         when(mockDto.getEmployeeId()).thenReturn(1L);
 
         Arrays.stream(DayOffType.values())
@@ -120,15 +120,15 @@ class DayOffHistoryMainServiceTest {
     }
 
     private void assertPassWithSameStartEnd(Float dayOffRemains, Predicate<DayOffType> dayOffTypePredicate) {
-        LocalDate date = LocalDate.of(2023, 7, 31);
+        LocalDate date = LocalDate.now();
         assertPass(date, date, dayOffRemains, dayOffTypePredicate);
     }
 
     @DisplayName("[성공] 시작과 끝이 다른 not 반차")
     @Test
     void whenLateEndDateWithNotDayOff_thenPass() {
-        LocalDate start = LocalDate.of(2023, 8, 2);
-        LocalDate end = LocalDate.of(2023, 8, 4);
+        LocalDate start = LocalDate.now();
+        LocalDate end = LocalDate.now().plusDays(2);
         assertPass(start, end, 3.0f, type -> !type.isHalfDayOff());
     }
 

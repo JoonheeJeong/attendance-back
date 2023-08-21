@@ -31,9 +31,9 @@ public interface DutyHistoryRepository extends JpaRepository<DutyHistory, Long> 
              "AND s.date = :date")
     Optional<DutyHistory> findOverlappedDate(Long employeeId, LocalDate date);
 
-    @Query("SELECT s FROM DutyHistory s " +
+    @Query("SELECT COUNT(s) FROM DutyHistory s " +
            "WHERE s.employee = :employee " +
              "AND s.status IN ( :#{T(com.toy4.domain.schedule.RequestStatus).REQUESTED}, :#{T(com.toy4.domain.schedule.RequestStatus).APPROVED} ) " +
              "AND s.date BETWEEN :startDate AND :endDate")
-    List<DutyHistory> findOverlappedDate(Employee employee, LocalDate startDate, LocalDate endDate);
+    int countAllWithOverlappedDate(Employee employee, LocalDate startDate, LocalDate endDate);
 }

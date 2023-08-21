@@ -38,7 +38,7 @@ public class DayOffHistoryMainService {
         Employee employee = findEmployee(dto.getEmployeeId());
         float newDayOffRemains = employee.getDayOffRemains() - amount;
         validateIfNewDayOffRemainsNonNegative(newDayOffRemains);
-        validateIfOverlappedDayOffOrDutyNotExists(employee, dto.getStartDate(), dto.getEndDate(), dto.getType());
+        validateIfOverlappedDayOffsOrDutiesNotExist(employee, dto.getStartDate(), dto.getEndDate(), dto.getType());
 
         // 연차 이력 테이블에 새로운 레코드 삽입
         dayOffHistoryRepository.save(newDayOffHistory(employee, amount, dto));
@@ -88,7 +88,7 @@ public class DayOffHistoryMainService {
 
         float newDayOffRemains = employee.getDayOffRemains() + dayOffHistory.getTotalAmount() - updatedAmount;
         validateIfNewDayOffRemainsNonNegative(newDayOffRemains);
-        validateIfOverlappedDayOffOrDutyNotExists(employee, dto.getStartDate(), dto.getEndDate(), dto.getType());
+        validateIfOverlappedDayOffsOrDutiesNotExist(employee, dto.getStartDate(), dto.getEndDate(), dto.getType());
 
         employee.updateDayOffRemains(newDayOffRemains);
 
@@ -138,7 +138,9 @@ public class DayOffHistoryMainService {
         }
     }
 
-    private void validateIfOverlappedDayOffOrDutyNotExists(Employee employee, LocalDate startDate, LocalDate endDate, DayOffType dayOffType) {
+    private void validateIfOverlappedDayOffsOrDutiesNotExist(
+            Employee employee, LocalDate startDate, LocalDate endDate, DayOffType dayOffType) {
+
         if (dayOffType.isHalfDayOff()) {
             validateIfDayOffsOverlappedWithHalfDayOffNotExist(employee, startDate, dayOffType);
         } else {
@@ -156,10 +158,9 @@ public class DayOffHistoryMainService {
     private void validateIfDayOffsOverlappedWithHalfDayOffNotExist(
             Employee employee, LocalDate startDate, DayOffType dayOffType) {
 
-        boolean hasOverlappedDayOffHistories = dayOffHistoryRepository
-                .findAllOverlappedDate(employee, dayOffType, startDate)
-                .size() > 0;
-        if (hasOverlappedDayOffHistories) {
+        boolean existOverlappedDayOffHistories = dayOffHistoryRepository
+                .countAllWithOverlappedDate(employee, dayOffType, startDate) > 0;
+        if (existOverlappedDayOffHistories) {
             throw new DayOffHistoryException(ErrorCode.OVERLAPPED_DAY_OFF_DATE);
         }
     }
@@ -170,17 +171,15 @@ public class DayOffHistoryMainService {
     private void validateIfDayOffsOrDutiesOverlappedWithFullDayOffNotExist(
             Employee employee, LocalDate startDate, LocalDate endDate) {
 
-        boolean hasOverlappedDayOffHistories = dayOffHistoryRepository
-                .findAllOverlappedDate(employee, startDate, endDate)
-                .size() > 0;
-        if (hasOverlappedDayOffHistories) {
+        boolean existOverlappedDayOffHistories = dayOffHistoryRepository
+                .countAllWithOverlappedDate(employee, startDate, endDate) > 0;
+        if (existOverlappedDayOffHistories) {
             throw new DayOffHistoryException(ErrorCode.OVERLAPPED_DAY_OFF_DATE);
         }
 
-        boolean hasOverlappedDutyHistories = dutyHistoryRepository
-                .findOverlappedDate(employee, startDate, endDate)
-                .size() > 0;
-        if (hasOverlappedDutyHistories) {
+        boolean existOverlappedDutyHistories = dutyHistoryRepository
+                .countAllWithOverlappedDate(employee, startDate, endDate) > 0;
+        if (existOverlappedDutyHistories) {
             throw new DayOffHistoryException(ErrorCode.OVERLAPPED_DAY_OFF_DATE);
         }
     }

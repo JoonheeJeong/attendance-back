@@ -138,23 +138,50 @@ public class DayOffHistoryMainService {
         }
     }
 
-    private void validateIfOverlappedDayOffOrDutyNotExists(Employee employee, LocalDate startDate, LocalDate endDate, DayOffType dayoffType) {
-        // 1. 반차일 경우 REQUESTED, APPROVED 상태 중에서 같은 날 같은 유형의 반차나 날짜가 겹치는 '연차', '특별 휴가'가 있거나
-        if (dayoffType.isHalfDayOff()) {
-            boolean hasOverlappedDayOffHistories = !dayOffHistoryRepository.findAllOverlappedDate(employee, dayoffType, startDate).isEmpty();
-            if (hasOverlappedDayOffHistories) {
-                throw new DayOffHistoryException(ErrorCode.OVERLAPPED_DAY_OFF_DATE);
-            }
-        // 2. 연차일 경우 REQUESTED, APPROVED 상태 중에서 날짜가 겹치는 연차/당직이 있거나
+    private void validateIfOverlappedDayOffOrDutyNotExists(Employee employee, LocalDate startDate, LocalDate endDate, DayOffType dayOffType) {
+        if (dayOffType.isHalfDayOff()) {
+            validateIfDayOffsOverlappedWithHalfDayOffNotExist(employee, startDate, dayOffType);
         } else {
-            boolean hasOverlappedDayOffHistories = !dayOffHistoryRepository.findAllOverlappedDate(employee, startDate, endDate).isEmpty();
-            if (hasOverlappedDayOffHistories) {
-                throw new DayOffHistoryException(ErrorCode.OVERLAPPED_DAY_OFF_DATE);
-            }
-            boolean hasOverlappedDutyHistories = !dutyHistoryRepository.findOverlappedDate(employee, startDate, endDate).isEmpty();
-            if (hasOverlappedDutyHistories) {
-                throw new DayOffHistoryException(ErrorCode.OVERLAPPED_DAY_OFF_DATE);
-            }
+            validateIfDayOffsOrDutiesOverlappedWithFullDayOffNotExist(employee, startDate, endDate);
+        }
+    }
+
+    /**
+     * 반차일 경우, <br/>
+     * REQUESTED, APPROVED 상태이면서 <br/>
+     * 1. 같은 날 같은 유형의 반차가 존재하거나 <br/>
+     * 2. 날짜가 겹치는 '연차'/'특별 휴가'가 존재하면 <br/>
+     * 신청 불가
+     */
+    private void validateIfDayOffsOverlappedWithHalfDayOffNotExist(
+            Employee employee, LocalDate startDate, DayOffType dayOffType) {
+
+        boolean hasOverlappedDayOffHistories = dayOffHistoryRepository
+                .findAllOverlappedDate(employee, dayOffType, startDate)
+                .size() > 0;
+        if (hasOverlappedDayOffHistories) {
+            throw new DayOffHistoryException(ErrorCode.OVERLAPPED_DAY_OFF_DATE);
+        }
+    }
+
+    /**
+     * 반차 아닌 연차일 경우, REQUESTED, APPROVED 상태이면서 날짜가 겹치는 연차/당직이 존재하면 신청 불가
+     */
+    private void validateIfDayOffsOrDutiesOverlappedWithFullDayOffNotExist(
+            Employee employee, LocalDate startDate, LocalDate endDate) {
+
+        boolean hasOverlappedDayOffHistories = dayOffHistoryRepository
+                .findAllOverlappedDate(employee, startDate, endDate)
+                .size() > 0;
+        if (hasOverlappedDayOffHistories) {
+            throw new DayOffHistoryException(ErrorCode.OVERLAPPED_DAY_OFF_DATE);
+        }
+
+        boolean hasOverlappedDutyHistories = dutyHistoryRepository
+                .findOverlappedDate(employee, startDate, endDate)
+                .size() > 0;
+        if (hasOverlappedDutyHistories) {
+            throw new DayOffHistoryException(ErrorCode.OVERLAPPED_DAY_OFF_DATE);
         }
     }
 }

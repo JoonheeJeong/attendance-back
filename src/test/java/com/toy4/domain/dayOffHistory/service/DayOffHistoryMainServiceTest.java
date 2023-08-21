@@ -156,7 +156,7 @@ class DayOffHistoryMainServiceTest {
         verify(mockDayOffHistoryRepo, times(2)).save(any(DayOffHistory.class));
     }
 
-    @DisplayName("시작일이 당일 보다 전날일 경우 신청 불가")
+    @DisplayName("[예외] 시작일이 오늘 이전이면 신청 불가")
     @Test
     void whenPastDate_thenThrowsException() {
         // given
@@ -176,7 +176,7 @@ class DayOffHistoryMainServiceTest {
                 .hasFieldOrPropertyWithValue("errorCode", ErrorCode.PAST_DATE);
     }
 
-    @DisplayName("시작일이 당일 이상인 경우 신청 가능")
+    @DisplayName("[예외] 시작일이 오늘 이후면 지난 날짜 검증 통과")
     @Test
     void whenToday_thenThrowsException() {
         // given
